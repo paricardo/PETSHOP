@@ -1,0 +1,92 @@
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Compilados
+*.so
+
+# Distribuição / Build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs
+*.log
+logs/
+
+# Testes
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type Checkers
+.mypy_cache/
+.pyre/
+.pytype/
+
+# ===========================
+# Ambiente Virtual
+# ===========================
+venv/
+.venv/
+env/
+ENV/
+
+# ===========================
+# Variáveis de ambiente
+# ===========================
+.env
+.env.*
+!.env.example
+
+# ===========================
+# Banco de Dados
+# ===========================
+*.db
+*.sqlite
+*.sqlite3
+*.petshop.db
+petshop.db
+
+# Caso queira versionar um banco específico,
+# remova as linhas acima e ignore apenas:
+# instance/*.sqlite3
+
+# ===========================
+# Flask
+# ===========================
+instance/
+.webassets-cache/
+
+# ===========================
+# VS Code
+# ===========================
+.vscode/
+
+# ===========================
+# PyCharm / IntelliJ
+# ===========================
+.idea/
+
+# ===========================
+# Sistema Operacional
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Jupyter
+# ===========================
+.ipynb_checkpoints/
+
+# ===========================
+# Arquivos temporários
+# ===========================
+*.swp
+*.swo
+*~
