@@ -1,4 +1,10 @@
-from src.models.init_db import initialize_database
+from src import create_app
+from config import Config
 
 
-initialize_database()
+app = create_app()
+
+app.config.from_object(Config)
+
+if __name__ == "__main__":
+    app.run(port=5000)

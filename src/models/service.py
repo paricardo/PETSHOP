@@ -8,7 +8,7 @@ from peewee import (
 
 
 class Service(BaseModel):
-    name = CharField(max_length=150)
+    name = CharField(max_length=150, null=False)
     notes = TextField()
 
     price_small = DecimalField(

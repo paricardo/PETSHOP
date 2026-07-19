@@ -7,19 +7,39 @@ from src.utils.validators import (
 class CustomerService:
 
     def get(self):
-        ...
+        data = Customer.select()
+
+        return data
     
 
-    def getById(self):
-        ...
+    def getById(self, id_customer: int):
+        customer_id = Customer.get_or_none(
+            Customer.id == id_customer
+        )
+        
+        customer = {
+            "id": customer_id.id,
+            "name": customer_id.name,
+            "phone": customer_id.phone,
+            "email": customer_id.email,
+            "address": customer_id.address,
+            "notes": customer_id.notes,
+            "is_active": customer_id.is_active,
+            "created_at": customer_id.created_at
+        }
+
+        return customer
 
 
     def create(self, data):
 
         valid_email = validate_email(data['email']) 
 
-        if not valid_email:
-            return {"error": "Email Invalido!!!"}
+        if valid_email == True:
+            email = data['email']
+
+        if valid_email == False:
+            return {"error": "Email invalido!!!"}, 404
         
         phone, status = format_phone(data['phone']) 
 
@@ -29,12 +49,12 @@ class CustomerService:
         Customer.create(
             name = data['name'],
             phone = phone,
-            email = data.get('email') or None,
+            email = email or '',
             address = data['address'],
             notes = data.get('notes'),
         )
 
-        return {"message": "Cliente cadastrado com sucesso"}
+        return {"message": "Cliente cadastrado com sucesso"}, 201
 
 
     def update(self, data, id_customer: int):
@@ -44,19 +64,27 @@ class CustomerService:
         )
 
         if not customer:
-            return {"error": "Cliente não encontrado"}
+            return {"error": "Cliente não encontrado"}, 404
 
-        if not validate_email(data["email"]):
-            return {"error": "Email inválido"}
+        valid_email = validate_email(data['email']) 
 
-        phone, status = format_phone(data["phone"])
+        if valid_email == True:
+            email = data['email']
 
-        if not status:
-            return {"error": "Telefone inválido"}
+        if valid_email == False:
+            return {"error": "Email invalido!!!"}, 404
+
+        valid_phone, status = format_phone(data["phone"])
+
+        if status == False:
+            {"error": "Telefone invalido!!!"}, 404
+
+        if status == True:
+            phone = valid_phone
 
         customer.name = data["name"]
         customer.phone = phone
-        customer.email = data["email"] or None
+        customer.email = email or ''
         customer.address = data["address"]
         customer.notes = data["notes"] or None
 
@@ -64,7 +92,7 @@ class CustomerService:
 
         return {
             "message": "Cliente atualizado com sucesso"
-        }
+        }, 200
 
     def delete(self, id_customer: int):
 
@@ -73,10 +101,10 @@ class CustomerService:
         )
 
         if not customer:
-            return {"error": "Cliente não encontrado!!!"}
+            return {"error": "Cliente não encontrado!!!"}, 404
 
         customer.delete_instance()
 
         return {
             "message": "Cliente removido com sucesso"
-        }
+        }, 200
