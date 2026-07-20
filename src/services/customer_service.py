@@ -13,20 +13,13 @@ class CustomerService:
     
 
     def getById(self, id_customer: int):
-        customer_id = Customer.get_or_none(
+        
+        customer = Customer.get_or_none(
             Customer.id == id_customer
         )
-        
-        customer = {
-            "id": customer_id.id,
-            "name": customer_id.name,
-            "phone": customer_id.phone,
-            "email": customer_id.email,
-            "address": customer_id.address,
-            "notes": customer_id.notes,
-            "is_active": customer_id.is_active,
-            "created_at": customer_id.created_at
-        }
+       
+        if not customer:
+            return {"error": "Cliente não encontrado!!!"}
 
         return customer
 
