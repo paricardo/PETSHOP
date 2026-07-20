@@ -15,6 +15,9 @@ class PetService:
         pet_id = Pet.get_or_none(
             Pet.id == id_pet
         )
+
+        if not pet_id:
+            return {"error": "Pet não encontrado!!!"}
         
         pet = {
             "name": pet_id.name,
@@ -22,7 +25,7 @@ class PetService:
             "notes": pet_id.notes,
             "is_active": pet_id.is_active,
             "created_at": pet_id.created_at,
-            "customer_id": pet_id.customer_id
+            "customer_id": pet_id.customer_id_id
         }
 
         return pet
@@ -36,14 +39,16 @@ class PetService:
 
         if not customer_id:
             return {"error": "Cliente não encontrado!!!"}, 404
+        
+        if not data['name']:
+            return {"error": "Nome do pet e obrigatório!!!"}, 404
 
         Pet.create(
             name = data['name'],
             breed = data['breed'],
             notes = data['notes'],
-            is_active = data['is_active'],
 
-            customer_id = data['customer_id']
+            customer_id = data['customer_id'],
         )
 
         return {"message": "Pet cadastrado com sucesso"}, 201

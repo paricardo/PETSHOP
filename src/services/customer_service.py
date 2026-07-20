@@ -34,6 +34,9 @@ class CustomerService:
         if valid_email == False:
             return {"error": "Email invalido!!!"}, 404
         
+        if not data['name']:
+            return {"error": "O nome do cliente e obrigatório!!!"}
+        
         phone, status = format_phone(data['phone']) 
 
         if status == False:
@@ -66,6 +69,9 @@ class CustomerService:
 
         if valid_email == False:
             return {"error": "Email invalido!!!"}, 404
+        
+        if not data['name']:
+            return {"error": "O nome do cliente e obrigatório!!!"}
 
         valid_phone, status = format_phone(data["phone"])
 
