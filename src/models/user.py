@@ -7,8 +7,8 @@ from peewee import (
 
 
 class User(BaseModel):
-    name = CharField(max_length=50)
-    email = CharField(max_length=150)
+    name = CharField(max_length=50, null=False)
+    email = CharField(max_length=150, null=False)
     password = CharField()
     role = CharField(default="Admin")
     is_active = BooleanField(default=True)

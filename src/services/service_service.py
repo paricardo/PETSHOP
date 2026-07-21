@@ -13,6 +13,9 @@ class ServiceService:
         service_id = Service.get_or_none(
             Service.id == id_service
         )
+
+        if not service_id:
+            return {"error": "Serviço não encontrado!!!"}
         
         service = {
             "id": service_id.id,

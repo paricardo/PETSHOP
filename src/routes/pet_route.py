@@ -60,9 +60,16 @@ def create():
 
 @pet_bp.route('/update/<int:id_pet>', methods=['POST'])
 def update(id_pet):
-    ...
+    data = request.form.to_dict()
+
+    result = service.update(data, id_pet)
+
+    return result
 
 
 @pet_bp.route('/delete/<int:id_pet>', methods=['POST'])
 def delete(id_pet):
-    ...
+    
+    result = service.delete(id_pet)
+
+    return result
