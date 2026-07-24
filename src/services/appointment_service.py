@@ -2,7 +2,7 @@ from src.models.appointment import Appointment
 from src.models.user import User
 from src.models.customer import Customer
 from src.models.pet import Pet
-from src.models.service import Service
+from src.models.package import Package
 
 class AppointmentService:
 
@@ -44,8 +44,8 @@ class AppointmentService:
             Pet.id == data['pet_id']
         )
 
-        service = Service.get_or_none(
-            Service.id == data['service_id']
+        package = Package.get_or_none(
+            package.id == data['package_id']
         )
 
         user = User.get_or_none(
@@ -58,7 +58,7 @@ class AppointmentService:
         if not pet:
             return {"error": "Pet e obrigatório para agendamento!!!"}, 404
         
-        if not service:
+        if not package:
             return {"error": "Serviço e obrigatório para agendamento!!!"}, 404
         
         if not user:
@@ -68,7 +68,7 @@ class AppointmentService:
         Appointment.create(
             customer_id = customer,
             pet_id = pet,
-            service_id = service,
+            package_id = package,
             user_id = user,
             scheduled_at = data['scheduled_at'],
             status = data['status'] or 'in_progress',
@@ -92,8 +92,8 @@ class AppointmentService:
             Pet.id == data['pet_id']
         )
 
-        service = Service.get_or_none(
-            Service.id == data['service_id']
+        package = Package.get_or_none(
+            Package.id == data['package_id']
         )
 
         user = User.get_or_none(
@@ -109,7 +109,7 @@ class AppointmentService:
         if not pet:
             return {"error": "Pet e obrigatório para agendamento!!!"}, 404
         
-        if not service:
+        if not package:
             return {"error": "Serviço e obrigatório para agendamento!!!"}, 404
         
         if not user:
@@ -117,7 +117,7 @@ class AppointmentService:
 
         appointment.customer_id = customer
         appointment.pet_id = pet
-        appointment.service_id = service
+        appointment.package_id_id = package
         appointment.user_id = user
         appointment.scheduled_at = data['scheduled_at']
         appointment.status = data['status']

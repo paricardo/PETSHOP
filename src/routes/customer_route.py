@@ -1,56 +1,43 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, render_template, redirect, url_for, flash
 from src.services.customer_service import CustomerService
 
 customer_bp = Blueprint('customer', __name__)
 
 service = CustomerService()
 
+""" RENDERIZAÇÃO DE TELAS """
+
+@customer_bp.route('/form-add', methods=['GET'])
+def form_add():
+
+     return render_template("customer/add_customer.html")
+
+
 """ ROTAS DE CRUD """
 
 @customer_bp.route('/', methods=['GET'])
 def list_all():
-    result = service.get()
 
-    data = []
+    try:
+        customers = service.get()
 
-    for c in result:
-        value = {
-            "id": c.id, 
-            "name": c.name, 
-            "phone": c.phone, 
-            "email": c.email, 
-            "address": c.address, 
-            "notes": c.notes, 
-            "is_active": c.is_active, 
-            "created_at": c.created_at,
-        }
-        data.append(value)
-
-    return data
+        return render_template("index/index.html", tab="customers", customers=customers)
+    except Exception as e:
+        return str(e), 500
 
 
 @customer_bp.route('/<int:id_customer>', methods=['GET'])
 def list_one(id_customer: int):
     
     try:
-        result = service.getById(id_customer)
+        customer = service.getById(id_customer)
 
-        data = [
-            {
-                "id": result.id, 
-                "nome": result.name, 
-                "phone": result.phone, 
-                "email": result.email, 
-                "address": result.address, 
-                "notes": result.notes, 
-                "is_active": result.is_active
-            }
-        ]
+        print(customer['is_active'])
 
-        return data
-    except Exception:
+        return render_template("customer/info_customer.html", customer=customer)
+    except Exception as e:
         
-        return result
+        return str(e), 500
 
     
 @customer_bp.route('/add', methods=['POST'])
@@ -59,7 +46,13 @@ def create():
 
     result = service.create(data)
 
-    return result
+    if result['status'] == True:
+            flash(result['message'], "success")
+            return redirect(url_for('index.index', tab="customers"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))
 
 
 @customer_bp.route('/update/<int:id_customer>', methods=['POST'])
@@ -68,7 +61,14 @@ def update(id_customer):
 
     result = service.update(data, id_customer)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('index.index', tab="customers"))
+
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))
+
 
 
 @customer_bp.route('/delete/<int:id_customer>', methods=['POST'])
@@ -76,4 +76,10 @@ def delete(id_customer):
 
     result = service.delete(id_customer)
 
-    return result
+    if result['status'] == True:
+            flash(result['message'], "success")
+            return redirect(url_for('index.index', tab="customers"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))

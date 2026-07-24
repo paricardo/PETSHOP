@@ -3,7 +3,7 @@ from config import Config
 from src.models.user import User
 from src.models.customer import Customer
 from src.models.pet import Pet
-from src.models.service import Service
+from src.models.package import Package
 from src.models.appointment import Appointment
 
 def initialize_database():
@@ -12,7 +12,7 @@ def initialize_database():
         User,
         Customer,
         Pet,
-        Service,
+        Package,
         Appointment,
     ])
 

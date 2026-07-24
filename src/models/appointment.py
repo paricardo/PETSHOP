@@ -2,7 +2,7 @@ from src.utils.validators import date_now
 from src.models import BaseModel
 from src.models.customer import Customer
 from src.models.pet import Pet
-from src.models.service import Service
+from src.models.package import Package
 from src.models.user import User
 from peewee import *
 
@@ -20,8 +20,8 @@ class Appointment(BaseModel):
         on_delete="CASCADE"
     )
 
-    service_id = ForeignKeyField(
-        Service,
+    package_id = ForeignKeyField(
+        Package,
         backref="appointments",
         on_delete="CASCADE"
     )

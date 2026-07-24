@@ -1,15 +1,11 @@
 from src.models import BaseModel
 from src.utils.validators import date_now
-from peewee import (
-    CharField,
-    TextField,
-    DecimalField,
-)
+from peewee import CharField ,TextField, DecimalField
 
 
-class Service(BaseModel):
-    name = CharField(max_length=150, null=False)
-    notes = TextField()
+class Package(BaseModel):
+    name = CharField(null=False)
+    services = TextField()
 
     price_small = DecimalField(
         max_digits=10, 
@@ -37,4 +33,4 @@ class Service(BaseModel):
     created_at = date_now
 
     class Meta:
-        table_name = "services"
+        table_name = "packages"

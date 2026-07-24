@@ -14,12 +14,23 @@ class CustomerService:
 
     def getById(self, id_customer: int):
         
-        customer = Customer.get_or_none(
+        customer_id = Customer.get_or_none(
             Customer.id == id_customer
         )
        
-        if not customer:
-            return {"error": "Cliente não encontrado!!!"}
+        if not customer_id:
+            return {"message": "Cliente não encontrado!!!", "status": False}
+
+        customer = {
+            "id": customer_id.id,
+            "name": customer_id.name,
+            "phone": customer_id.phone,
+            "email": customer_id.email,
+            "address": customer_id.address,
+            "notes": customer_id.notes,
+            "is_active": customer_id.is_active,
+            "created_at": customer_id.created_at,
+        }
 
         return customer
 
@@ -32,15 +43,20 @@ class CustomerService:
             email = data['email']
 
         if valid_email == False:
-            return {"error": "Email invalido!!!"}, 404
+            return {"message": "Email invalido!!!", "status": False}
         
         if not data['name']:
-            return {"error": "O nome do cliente e obrigatório!!!"}
+            return {"message": "O nome do cliente e obrigatório!!!", "status": False}
         
         phone, status = format_phone(data['phone']) 
 
         if status == False:
-            return {"error": "Telefone Invalido!!!"}, 404
+            return {"message": "Telefone Invalido!!!", "status": False}
+
+        if data['is_active'] == "True":
+            is_active = True
+        else:
+            is_active = False
 
         Customer.create(
             name = data['name'],
@@ -48,9 +64,10 @@ class CustomerService:
             email = email or '',
             address = data['address'],
             notes = data.get('notes'),
+            is_active = is_active,
         )
 
-        return {"message": "Cliente cadastrado com sucesso"}, 201
+        return {"message": "Cliente cadastrado com sucesso", "status": True}
 
 
     def update(self, data, id_customer: int):
@@ -60,7 +77,7 @@ class CustomerService:
         )
 
         if not customer:
-            return {"error": "Cliente não encontrado"}, 404
+            return {"message": "Cliente não encontrado", "status": False}
 
         valid_email = validate_email(data['email']) 
 
@@ -68,31 +85,34 @@ class CustomerService:
             email = data['email']
 
         if valid_email == False:
-            return {"error": "Email invalido!!!"}, 404
+            return {"message": "Email invalido!!!", "stats": False}
         
         if not data['name']:
-            return {"error": "O nome do cliente e obrigatório!!!"}
+            return {"message": "O nome do cliente e obrigatório!!!", "status": False}
 
         valid_phone, status = format_phone(data["phone"])
 
         if status == False:
-            {"error": "Telefone invalido!!!"}, 404
-
+            {"message": "Telefone invalido!!!", "status": False}
         if status == True:
             phone = valid_phone
+
+        if data['is_active'] == "True":
+            is_active = True
+        else:
+            is_active = False
 
         customer.name = data["name"]
         customer.phone = phone
         customer.email = email or ''
         customer.address = data["address"]
         customer.notes = data["notes"] or None
+        customer.is_active = is_active
 
         customer.save()
 
-        return {
-            "message": "Cliente atualizado com sucesso"
-        }, 200
-
+        return {"message": "Cliente atualizado com sucesso", "status": True}
+    
     def delete(self, id_customer: int):
 
         customer = Customer.get_or_none(
@@ -100,10 +120,7 @@ class CustomerService:
         )
 
         if not customer:
-            return {"error": "Cliente não encontrado!!!"}, 404
-
+            return {"message": "Cliente não encontrado!!!", "status": False}
         customer.delete_instance()
 
-        return {
-            "message": "Cliente removido com sucesso"
-        }, 200
+        return {"message": "Cliente removido com sucesso", "status": True}

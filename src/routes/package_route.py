@@ -1,13 +1,13 @@
 from flask import Blueprint, request
-from src.services.service_service import ServiceService
+from src.services.package_service import PackageService
 
-service_bp = Blueprint('service', __name__)
+package_bp = Blueprint('package', __name__)
 
-service = ServiceService()
+service = PackageService()
 
 """ ROTAS DE CRUD """
 
-@service_bp.route('/', methods=['GET'])
+@package_bp.route('/', methods=['GET'])
 def list_all():
     result = service.get()
 
@@ -28,11 +28,11 @@ def list_all():
     return data
 
 
-@service_bp.route('/<int:id_service>', methods=['GET'])
-def list_one(id_service: int):
+@package_bp.route('/<int:id_service>', methods=['GET'])
+def list_one(id_package: int):
     
     try:
-        result = service.getById(id_service)
+        result = service.getById(id_package)
 
         data = [
             {
@@ -51,7 +51,7 @@ def list_one(id_service: int):
         return result
 
     
-@service_bp.route('/add', methods=['POST'])
+@package_bp.route('/add', methods=['POST'])
 def create():
     data = request.form.to_dict()
 
@@ -60,18 +60,18 @@ def create():
     return result
 
 
-@service_bp.route('/update/<int:id_service>', methods=['POST'])
-def update(id_service):
+@package_bp.route('/update/<int:id_service>', methods=['POST'])
+def update(id_package):
     data = request.form.to_dict()
 
-    result = service.update(data, id_service)
+    result = service.update(data, id_package)
 
     return result
 
 
-@service_bp.route('/delete/<int:id_service>', methods=['POST'])
-def delete(id_service):
+@package_bp.route('/delete/<int:id_service>', methods=['POST'])
+def delete(id_package):
 
-    result = service.delete(id_service)
+    result = service.delete(id_package)
 
     return result
