@@ -7,8 +7,21 @@
     <link rel="stylesheet" href="../../static/css/style.css">
     <title>Cadastrar Cliente</title>
 </head>
-<body>
-    <form action="{{ url_for('customer.create')}}" method="post">
+<body data-bs-theme="dark">
+    <header class="container-fluid bg-primary d-flex justify-content-between p-2 pt-3">
+        <div class="mt-1">
+            <a onclick="window.history.back()" href="#">
+                <img src="../../static/icons/retorno.svg" alt="retornar">
+            </a>
+        </div>
+        <div>
+            <h1 class="text-white">Cadastro de Cliente</h1>
+        </div>
+
+        <div class="mx-2"></div>
+    </header>
+
+    <form class="container border p-3 mt-3 rounded" action="{{ url_for('customer.create')}}" method="post">
 
 
         <!-- Nome -->
