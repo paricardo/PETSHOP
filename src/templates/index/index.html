@@ -181,8 +181,8 @@
 
             {% for customer in customers %}
                 
-                <a href="{{ url_for('customer.list_one', id_customer=customer.id) }}" class=" card text-decoration-none mt-3">
-                    <div class="d-flex justify-content-between shadow align-items-center pt-3 px-2 border mb-2 rounded">
+                <a href="{{ url_for('customer.list_one', id_customer=customer.id) }}" class="text-decoration-none mt-3">
+                    <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
                         <p class="text-truncate text-white" style="max-width: 100px;">{{customer.id}}</p>
                         <p class="text-truncate text-white" style="max-width: 100px;">{{customer.name}}</p>
                         <p class="text-truncate text-white" style="max-width: 100px;">{{customer.phone}}</p>

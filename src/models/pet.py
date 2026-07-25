@@ -15,6 +15,7 @@ class Pet(BaseModel):
     notes = TextField(null=True)
     is_active = BooleanField(default=True)
     created_at = date_now
+    photo = CharField(null=True)
 
     customer_id = ForeignKeyField(
         Customer,

@@ -32,8 +32,6 @@ def list_one(id_customer: int):
     try:
         customer = service.getById(id_customer)
 
-        print(customer['is_active'])
-
         return render_template("customer/info_customer.html", customer=customer)
     except Exception as e:
         

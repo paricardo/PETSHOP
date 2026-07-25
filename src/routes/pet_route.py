@@ -1,9 +1,18 @@
-from flask import Blueprint, request
 from src.services.pet_service import PetService
+from src.services.customer_service import CustomerService
+from flask import Blueprint, request, flash, url_for, redirect, render_template
 
-pet_bp = Blueprint('pets', __name__)
+pet_bp = Blueprint('pet', __name__)
 
 service = PetService()
+
+customerService = CustomerService()
+
+@pet_bp.route('/form-add/<int:id_customer>', methods=['GET', 'POST'])
+def form_add(id_customer):
+    customer = customerService.getById(id_customer)    
+
+    return render_template("pet/add_pet.html" , customer=customer )
 
 @pet_bp.route('/', methods=['GET'])
 def list_all():
@@ -53,9 +62,17 @@ def list_one(id_pet):
 def create():
     data = request.form.to_dict()
 
-    result = service.create(data)
+    photo = request.files.get("photo")
 
-    return result
+    result = service.create(data, photo)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('index.index', tab="customers"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))
 
 
 @pet_bp.route('/update/<int:id_pet>', methods=['POST'])
@@ -64,12 +81,23 @@ def update(id_pet):
 
     result = service.update(data, id_pet)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('index.index', tab="customers"))
 
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))
 
 @pet_bp.route('/delete/<int:id_pet>', methods=['POST'])
 def delete(id_pet):
     
     result = service.delete(id_pet)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('index.index', tab="customers"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="customers"))

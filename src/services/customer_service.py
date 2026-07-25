@@ -1,4 +1,5 @@
 from src.models.customer import Customer
+from src.models.pet import Pet
 from src.utils.validators import (
     format_phone,
     validate_email
@@ -17,20 +18,38 @@ class CustomerService:
         customer_id = Customer.get_or_none(
             Customer.id == id_customer
         )
-       
+
         if not customer_id:
             return {"message": "Cliente não encontrado!!!", "status": False}
+        
 
         customer = {
             "id": customer_id.id,
-            "name": customer_id.name,
+            "name": customer_id.name, 
             "phone": customer_id.phone,
             "email": customer_id.email,
             "address": customer_id.address,
             "notes": customer_id.notes,
             "is_active": customer_id.is_active,
             "created_at": customer_id.created_at,
+            "pets": []
         }
+        
+
+        pets = Pet.select().where(
+            Pet.customer_id == customer_id
+        )
+
+        for pet in pets:
+            customer["pets"].append({
+                "id": pet.id,
+                "name": pet.name,
+                "breed": pet.breed,
+                "notes": pet.notes,
+                "is_active": pet.is_active,
+                "created_at": pet.created_at,
+                "photo": pet.photo,
+            })
 
         return customer
 
