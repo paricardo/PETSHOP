@@ -37,25 +37,18 @@ def list_all():
 
 @pet_bp.route('/<int:id_pet>', methods=['GET'])
 def list_one(id_pet):
+
+    pet = service.getById(id_pet)
+
+    if pet.get("status") is False:
+        flash(pet["message"], "danger")
+        return redirect(url_for('index.index', tab="customers"))
+
     try:
-        result = service.getById(id_pet)
-
-        data = [
-            {
-                "id": result.id, 
-                "name": result.name, 
-                "breed": result.breed, 
-                "notes": result.notes, 
-                "is_active": result.is_active, 
-                "created_at": result.created_at, 
-                "customer_id": result.customer_id_id,
-            }
-        ]
-
-        return data
-    except Exception:
-        
-        return result
+        return render_template("pet/info_pet.html", pet=pet)
+    except Exception as e:
+        print(e)
+        raise
 
 
 @pet_bp.route('/add', methods=['POST'])

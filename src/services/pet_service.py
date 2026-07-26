@@ -22,11 +22,13 @@ class PetService:
             return {"message": "Pet não encontrado!!!", "status": False}
         
         pet = {
+            "id": pet_id.id,
             "name": pet_id.name,
             "breed": pet_id.breed,
             "notes": pet_id.notes,
             "is_active": pet_id.is_active,
-            "customer_id": pet_id.customer_id_id
+            "created_at": pet_id.created_at,
+            "photo": pet_id.photo,
         }
 
         return pet

@@ -22,26 +22,6 @@
 
     <main class="container">
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-
-                        {{ message }}
-
-                        <button 
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                        </button>
-
-                    </div>
-
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
         <h6 class="mt-3 ">Cliente</h6>
         <div id="infoClient" class="border rounded p-2">
             <p>ID: {{customer.id}}</p>
@@ -67,7 +47,7 @@
             <p>Cliente não tem pets cadastrados</p>
         {% else %}
             {% for pet in customer.pets %}
-                <a href="#" class="text-decoration-none text-white">
+                <a href="{{ url_for('pet.list_one', id_pet=pet.id) }}" class="text-decoration-none text-white">
                     <div id="infoPets" class="d-flex gap-5 p-3  border rounded p-2 my-3">
                         <div>
                             <img
