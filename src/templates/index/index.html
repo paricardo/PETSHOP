@@ -60,7 +60,7 @@
         <li class="nav-item">
             <button class="nav-link"
                     data-bs-toggle="tab"
-                    data-bs-target="#services">
+                    data-bs-target="#packages">
                 <img src="../../static/icons/service.svg" alt="Serviços">
             </button>
         </li>
@@ -236,11 +236,11 @@
             
         </div>
 
-        <div class="tab-pane fade container" id="services">
+        <div class="tab-pane fade container" id="packages">
             <div class="d-flex justify-content-between">
                 <h2>Pacotes</h2>
 
-                <a class="btn bg-success text-white text-center pt-2" href="#">Cadastrar +</a>
+                <a class="btn bg-success text-white text-center pt-2" href="{{url_for('package.form_add')}}">Cadastrar +</a>
             </div>
 
             <form>
@@ -258,24 +258,18 @@
                 <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
             </form>
 
-            <table class="table table-striped mt-4 text-center">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Preço P</th>
-                        <th scope="col">Preço M</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="py-4" scope="row">1</th>
-                        <td class="py-4 text-truncate" style="max-width: 100px;">Banho e Tosa</td>
-                        <td class="py-4 text-truncate" style="max-width: 100px;">60,00</td>
-                        <td class="py-4 text-truncate" style="max-width: 100px;">80,00</td>
-                    </tr>
-                </tbody>
-            </table>
+            {% for package in packages %}
+                
+                <a href="{{ url_for('package.list_one', id_package=package.id) }}" class="text-decoration-none mt-3">
+                    <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{package.id}}</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{package.name}}</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{package.services}}</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{package.price_small}}</p>
+                    </div>
+                </a>
+
+            {% endfor %}
         </div>
 
         <div class="tab-pane fade container" id="users">

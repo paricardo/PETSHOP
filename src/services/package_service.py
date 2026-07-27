@@ -15,7 +15,7 @@ class PackageService:
         )
 
         if not package_id:
-            return {"error": "pacote não encontrado!!!"}
+            return {"message": "pacote não encontrado!!!", "status": False}
         
         package = {
             "id": package_id.id,
@@ -32,8 +32,14 @@ class PackageService:
 
     def create(self, data):
 
-        if data['name'] == '':
-            return {"error": "O nome do pacote e obrigatório"}, 404
+        if not data['name']:
+            return {"message": "O nome do pacote e obrigatório", "status": False}
+
+        if not data['services']:
+            return {"message": "Os serviços do pacote são obrigatórios!!!", "status": False}
+
+        if not data['price_small']:
+            return {"message": "O preço para porte pequeno e obrigatório!!!", "status": False}
 
         Package.create(
             name = data['name'],
@@ -43,7 +49,7 @@ class PackageService:
             price_large = data['price_large'],
         )
 
-        return {"message": "Pacote cadastrado com sucesso"}, 201
+        return {"message": "Pacote cadastrado com sucesso", "status": True}
 
 
     def update(self, data, id_package: int):
@@ -53,10 +59,16 @@ class PackageService:
         )
 
         if not package:
-            return {"error": "Pacote não encontrado"}
+            return {"message": "Pacote não encontrado", "status": False}
 
-        if data['name'] == '':
-            return {"error": "Nome do Pacote e Obrigatório"}
+        if not data['name']:
+            return {"message": "O nome do pacote e obrigatório", "status": False}
+
+        if not data['services']:
+            return {"message": "Os serviços do pacote são obrigatórios!!!", "status": False}
+
+        if not data['price_small']:
+            return {"message": "O preço para porte pequeno e obrigatório!!!", "status": False}
 
         package.name = data['name']
         package.services = data['services']
@@ -67,7 +79,8 @@ class PackageService:
         package.save()
 
         return {
-            "message": "Pacote atualizado com sucesso"
+            "message": "Pacote atualizado com sucesso",
+            "status": True
         }
 
     def delete(self, id_package: int):
@@ -77,10 +90,11 @@ class PackageService:
         )
 
         if not package:
-            return {"error": "Pacote não encontrado!!!"}
+            return {"message": "Pacote não encontrado!!!", "status": False}
 
         package.delete_instance()
 
         return {
-            "message": "Pacote removido com sucesso"
+            "message": "Pacote removido com sucesso",
+            "status": True
         }
