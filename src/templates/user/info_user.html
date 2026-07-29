@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-    <title>Info Pacote</title>
+    <title>Info Usuário</title>
 </head>
 <body data-bs-theme="dark">
     <header class="container-fluid bg-primary d-flex justify-content-between p-2 pt-3">
@@ -14,7 +14,7 @@
             </a>
         </div>
         <div>
-            <h1 class="text-white">Informações Pacote</h1>
+            <h1 class="text-white">Informações Usuário</h1>
         </div>
 
         <div class="mx-2"></div>
@@ -22,22 +22,25 @@
 
     <main class="container">
 
-        <h6 class="mt-3 ">Pacote</h6>
-        <div id="infoPackage" class="border rounded p-2">
-            <p>ID: {{package.id}}</p>
-            <p>Nome: {{package.name}}</p>
-            <p>Serviços: {{package.services}}</p>
-            <p>Preço P/Pequeno: {{package.price_small}} R$</p>
-            <p>Preço P/Médio: {{package.price_medium}} R$</p>
-            <p>Preço P/Grande: {{package.price_large}} R$</p>
-            <p>Data Criação: {{package.created_at}}</p>
+        <h6 class="mt-3 ">Usuário</h6>
+        <div id="infoUser" class="border rounded p-2">
+            <p>ID: {{user.id}}</p>
+            <p>Nome: {{user.name}}</p>
+            <p>Email: {{user.email}}</p>
+            <p>Função: {{user.role}}</p>
+            {% if user.is_active == True %}
+                <p>Status: Ativo</p>
+            {% else %}
+                <p>Status: Inativo</p>
+            {% endif %}
+            <p>Data Criação: {{user.created_at}}</p>
         </div>
               
         <button 
             type="button"
             class="btn btn-primary w-100 mt-3"
             data-bs-toggle="modal"
-            data-bs-target="#editPackage">
+            data-bs-target="#editUser">
 
             Editar
 
@@ -57,7 +60,7 @@
 
 
         <!-- Modal Cliente -->
-    <div class="modal fade" id="editPackage" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
 
         <div class="modal-dialog modal-lg">
 
@@ -67,7 +70,7 @@
                 <div class="modal-header">
 
                     <h5 class="modal-title">
-                        Editar Cliente
+                        Editar Usuário
                     </h5>
 
                     <button 
@@ -83,7 +86,7 @@
                 <!-- Corpo -->
                 <div class="modal-body">
 
-                    <form action="{{ url_for('package.update', id_package=package.id) }}" method="post">
+                    <form action="{{ url_for('user.update', id_user=user.id) }}" method="post">
 
 
                         <!-- Nome -->
@@ -98,72 +101,100 @@
                                 class="form-control"
                                 name="name"
                                 placeholder="Digite o nome"
-                                value="{{ package.name }}"> 
+                                value="{{ user.name }}"> 
                         </div>
 
-                        <!-- Serviços -->
+                        <!-- Email -->
                         <div class="mb-3">
 
                             <label class="form-label">
-                                Serviços
-                            </label>
-
-                            <textarea
-                                class="form-control"
-                                name="services"
-                                rows="4"
-                                placeholder="Banho e Tosa">
-                                {{ package.services }}
-                            </textarea>
-
-                        </div>
-
-                        <!-- preço -->
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Preço P/Pequeno
+                                Email
                             </label>
 
                             <input 
-                                type="number"
+                                type="email"
                                 class="form-control"
-                                name="price_small"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_small }}"> 
+                                name="email"
+                                placeholder="Digite o email"
+                                value="{{ user.email }}"> 
                         </div>
 
-                        <!-- preço -->
+                        <!-- Senha -->
                         <div class="mb-3">
 
                             <label class="form-label">
-                                Preço P/Médio
+                                Senha
                             </label>
 
                             <input 
-                                type="number"
+                                type="password"
                                 class="form-control"
-                                name="price_medium"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_medium }}"> 
+                                name="password"
+                                placeholder="Digite a senha aqui"
+                                value="{{ user.password }}"> 
                         </div>
 
-                        <!-- preço -->
                         <div class="mb-3">
-
-                            <label class="form-label">
-                                Preço P/Grande
+                            <label for="form-label">
+                                Função
                             </label>
 
-                            <input 
-                                type="number"
-                                class="form-control"
-                                name="price_large"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_large }}"> 
+                            <select name="role" id="role">
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                            </select>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+
+                            <label class="form-label d-block">
+                                Status
+                            </label>
+
+
+                            <div class="form-check form-check-inline">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="is_active"
+                                    id="active"
+                                    value="True"
+                                    checked>
+
+                                <label 
+                                    class="form-check-label"
+                                    for="active">
+
+                                    Ativo
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="form-check form-check-inline">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="is_active"
+                                    id="inactive"
+                                    value="False">
+
+                                <label 
+                                    class="form-check-label"
+                                    for="inactive">
+
+                                    Inativo
+
+                                </label>
+
+                            </div>
+
+
                         </div>
 
 
@@ -234,7 +265,7 @@
                     </button>
 
                     <form method="post"
-                        action="{{ url_for('package.delete', id_package=package.id) }}">
+                        action="{{ url_for('user.delete', id_user=user.id) }}">
 
                         <button
                             type="submit"

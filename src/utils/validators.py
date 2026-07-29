@@ -3,7 +3,8 @@ from datetime import datetime
 
 
 """ VALIDAÇÃO DE DATA """
-date_now = datetime.now().replace(second=0, microsecond=0)
+def now_without_seconds():
+    return datetime.now().replace(second=0, microsecond=0)
 
 
 """ VALIDAÇÃO DE EMAIL """

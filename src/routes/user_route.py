@@ -1,72 +1,81 @@
-from flask import Blueprint, request
 from src.services.user_service import UserService
+from flask import (
+    Blueprint, 
+    request, 
+    render_template,
+    flash,
+    url_for,
+    redirect
+)
 
-user_bp = Blueprint('pets', __name__)
+user_bp = Blueprint('user', __name__)
 
 service = UserService()
 
+@user_bp.route('/form-add', methods=['GET'])
+def form_add():
+
+     return render_template("user/add_user.html")
+
 @user_bp.route('/', methods=['GET'])
 def list_all():
-    result = service.get()
+    try:
+        users = service.get()
 
-    data = []
-
-    for c in result:
-        value = {
-            "id": c.id, 
-            "name": c.name,  
-            "email": c.email,
-            "role": c.role, 
-            "is_active": c.is_active, 
-            "created_at": c.created_at, 
-        }
-        data.append(value)
-
-    return data
+        return render_template("index/index.html", tab="user", users=users)
+    except Exception as e:
+        return str(e), 500
 
 
 @user_bp.route('/<int:id_user>', methods=['GET'])
 def list_one(id_user):
     try:
-        result = service.getById(id_user)
+        user = service.getById(id_user)
 
-        data = [
-            {
-                "id": result.id, 
-                "name": result.name,  
-                "email": result.email,
-                "role": result.role, 
-                "is_active": result.is_active, 
-                "created_at": result.created_at, 
-            }
-        ]
-
-        return data
-    except Exception:
+        return render_template("user/info_user.html", user=user)
+    except Exception as e:
         
-        return result
+        return str(e), 500
 
 
 @user_bp.route('/add', methods=['POST'])
 def create():
     data = request.form.to_dict()
-
+        
     result = service.create(data)
 
-    return result
+    if result['status'] == True:
+            flash(result['message'], "success")
+            return redirect(url_for('index.index', tab="user"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="user"))
 
 
 @user_bp.route('/update/<int:id_user>', methods=['POST'])
 def update(id_user):
     data = request.form.to_dict()
-
+        
     result = service.update(data, id_user)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('index.index', tab="user"))
+
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="user"))
 
 @user_bp.route('/delete/<int:id_user>', methods=['POST'])
 def delete(id_user):
     
     result = service.delete(id_user)
-
-    return result
+        
+    if result['status'] == True:
+            flash(result['message'], "success")
+            return redirect(url_for('index.index', tab="user"))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('index.index', tab="user"))

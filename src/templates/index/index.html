@@ -263,7 +263,7 @@
                 <a href="{{ url_for('package.list_one', id_package=package.id) }}" class="text-decoration-none mt-3">
                     <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
                         <p class="text-truncate text-white" style="max-width: 100px;">{{package.id}}</p>
-                        <p class="text-truncate text-white" style="max-width: 100px;">{{package.name}}</p>
+                        <p class="text-white" style="max-width: 100px;">{{package.name}}</p>
                         <p class="text-truncate text-white" style="max-width: 100px;">{{package.services}}</p>
                         <p class="text-truncate text-white" style="max-width: 100px;">{{package.price_small}}</p>
                     </div>
@@ -276,14 +276,14 @@
             <div class="d-flex justify-content-between">
                 <h2>Usuários</h2>
 
-                <a class="btn bg-success text-white text-center pt-2" href="#">Cadastrar +</a>
+                <a class="btn bg-success text-white text-center pt-2" href="{{url_for('user.form_add')}}">Cadastrar +</a>
             </div>
 
             <form>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Encontre o Usuário</label>
                     <input 
-                        type="email" 
+                        type="text" 
                         class="form-control w-100" 
                         id="exampleInputEmail1" 
                         aria-describedby="emailHelp"
@@ -294,24 +294,22 @@
                 <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
             </form>
 
-            <table class="table table-striped mt-4 text-center">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="py-4" scope="row">1</th>
-                        <td class="py-4 text-truncate" style="max-width: 100px;">Paulo</td>
-                        <td class="py-4 text-truncate" style="max-width: 100px;">prbastosdev@gmail.com</td>
-                        <td class="py-4 text-truncate text-primary" style="max-width: 100px;">Ativo</td>
-                    </tr>
-                </tbody>
-            </table>
+            {% for user in users %}
+                
+                <a href="{{ url_for('user.list_one', id_user=user.id) }}" class="text-decoration-none mt-3">
+                    <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{user.id}}</p>
+                        <p class="text-white" style="max-width: 100px;">{{user.name}}</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{user.email}}</p>
+                        {% if user.is_active == True %}
+                            <p class="text-truncate text-white" style="max-width: 100px;">Ativo</p>
+                        {% else %}
+                            <p class="text-truncate text-white" style="max-width: 100px;">Inativo</p>
+                        {% endif %}
+                    </div>
+                </a>
+
+            {% endfor %}
         </div>
 
     </div>

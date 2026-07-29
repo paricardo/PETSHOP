@@ -1,5 +1,4 @@
 from src.models import BaseModel
-from src.utils.validators import date_now
 from peewee import CharField ,TextField, DecimalField
 
 
@@ -30,7 +29,6 @@ class Package(BaseModel):
         auto_round=False
     )
 
-    created_at = date_now
 
     class Meta:
         table_name = "packages"

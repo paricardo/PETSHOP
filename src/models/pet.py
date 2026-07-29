@@ -1,6 +1,5 @@
 from src.models import BaseModel
 from src.models.customer import Customer
-from src.utils.validators import date_now
 from peewee import (
     CharField,
     TextField,
@@ -14,7 +13,6 @@ class Pet(BaseModel):
     breed = CharField(max_length=50)
     notes = TextField(null=True)
     is_active = BooleanField(default=True)
-    created_at = date_now
     photo = CharField(null=True)
 
     customer_id = ForeignKeyField(

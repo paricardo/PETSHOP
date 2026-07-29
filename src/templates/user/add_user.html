@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <title>Cadastrar Usuário</title>
+</head>
+<body data-bs-theme="dark">
+    <header class="container-fluid bg-primary d-flex justify-content-between p-2 pt-3">
+        <div class="mt-1">
+            <a onclick="window.history.back()" href="#">
+                <img src="../../static/icons/retorno.svg" alt="retornar">
+            </a>
+        </div>
+        <div>
+            <h1 class="text-white">Cadastro de Usuário</h1>
+        </div>
+
+        <div class="mx-2"></div>
+    </header>
+
+    <form class="container border p-3 mt-3 rounded" action="{{ url_for('user.create')}}" method="post">
+
+
+        <!-- Nome -->
+        <div class="mb-3">
+
+            <label class="form-label">
+                Nome
+            </label>
+
+            <input 
+                type="text"
+                class="form-control"
+                name="name"
+                placeholder="Digite o nome"> 
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+
+            <label class="form-label">
+                Email
+            </label>
+
+            <input 
+                type="email"
+                class="form-control"
+                name="email"
+                placeholder="Digite o email"> 
+        </div>
+
+        <!-- Senha -->
+        <div class="mb-3">
+
+            <label class="form-label">
+                Senha
+            </label>
+
+            <input 
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Digite a senha aqui"> 
+        </div>
+
+
+        <div class="mb-3">
+            <label for="form-label">
+                Função
+            </label>
+
+            <select name="role" id="role">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+            </select>
+        </div>
+
+
+        <input class="btn btn-primary w-100" type="submit" value="Cadastrar">
+
+    </form>
+
+    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

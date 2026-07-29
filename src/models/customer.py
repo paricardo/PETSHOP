@@ -1,4 +1,3 @@
-from src.utils.validators import date_now
 from src.models import BaseModel
 from peewee import (
     CharField,
@@ -13,7 +12,6 @@ class Customer(BaseModel):
     address = TextField(null=False)
     notes = TextField(null=True)
     is_active = BooleanField(default=True)
-    created_at = date_now
 
 
     class Meta:
