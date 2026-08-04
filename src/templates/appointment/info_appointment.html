@@ -24,13 +24,16 @@
 
         <h6 class="mt-3 ">Pacote</h6>
         <div id="infoPackage" class="border rounded p-2">
-            <p>ID: {{package.id}}</p>
-            <p>Nome: {{package.name}}</p>
+            <p>ID: {{appointment.id}}</p>
+            <p>Cliente: {{customer.name}}</p>
+            <p>Pet: {{pet.name}}</p>
+            <p>Pacote: {{package.name}}</p>
             <p>Serviços: {{package.services}}</p>
             <p>Preço P/Pequeno: {{package.price_small}} R$</p>
             <p>Preço P/Médio: {{package.price_medium}} R$</p>
             <p>Preço P/Grande: {{package.price_large}} R$</p>
-            <p>Data Criação: {{package.created_at}}</p>
+            <p>Data agendamento: {{appointment.scheduled_at}}</p>
+            <p>Data Criação: {{appointment.created_at}}</p>
         </div>
               
         <button 
@@ -83,119 +86,124 @@
                 <!-- Corpo -->
                 <div class="modal-body">
 
-                    <form action="{{ url_for('package.update', id_package=package.id) }}" method="post">
+                        <form action="{{ url_for('appointment.update', id_appointment=appointment.id) }}" method="post">
 
 
-                        <!-- Nome -->
-                        <div class="mb-3">
+                            <h4 class="my-3">{{ customer.name }}</h4>
+                            <input type="text" name="customer_id" value="{{ customer.id }}" hidden>
 
-                            <label class="form-label">
-                                Nome
-                            </label>
+                            <select class="form-select my-3" aria-label="Default select example">
+                                <option selected>Pets do Cliente</option>
+                                {% for pet in customer.pets %}
+                                    <option value="{{ pet.id }}">{{ pet.name }}</option>
+                                {% endfor %}
+                            </select>
 
-                            <input 
-                                type="text"
-                                class="form-control"
-                                name="name"
-                                placeholder="Digite o nome"
-                                value="{{ package.name }}"> 
-                        </div>
+                            <input type="hidden" id="pet_id" name="pet_id">
 
-                        <!-- Serviços -->
-                        <div class="mb-3">
+                            <select class="form-select my-3" aria-label="Default select example">
+                                <option selected>Selecione um usuário</option>
+                                {% for u in USERS %}
+                                    <option value="{{ u.id }}">{{ u.name }}</option>
+                                {% endfor %}
+                            </select>
 
-                            <label class="form-label">
-                                Serviços
-                            </label>
+                            <input type="hidden" id="user_id" name="user_id">
 
-                            <textarea
-                                class="form-control"
-                                name="services"
-                                rows="4"
-                                placeholder="Banho e Tosa">
-                                {{ package.services }}
-                            </textarea>
+                            <select class="form-select my-3" aria-label="Default select example">
+                                <option selected>Selecione um serviço</option>
+                                {% for pack in PACKAGES %}
+                                    <option value="{{ pack.id }}">{{ pack.name }}</option>
+                                {% endfor %}
+                            </select>
 
-                        </div>
+                            <input type="hidden" id="package_id" name="package_id">
 
-                        <!-- preço -->
-                        <div class="mb-3">
+                            <div class="form-check my-3">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="status"
+                                    id="status_in_progress"
+                                    value="in_progress"
+                                    checked
+                                >
+                                <label class="form-check-label" for="status_in_progress">
+                                    Em andamento
+                                </label>
+                            </div>
 
-                            <label class="form-label">
-                                Preço P/Pequeno
-                            </label>
+                            <div class="form-check my-3">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="status"
+                                    id="status_canceled"
+                                    value="canceled"
+                                >
+                                <label class="form-check-label" for="status_canceled">
+                                    Cancelado
+                                </label>
+                            </div>
 
-                            <input 
-                                type="number"
-                                class="form-control"
-                                name="price_small"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_small }}"> 
-                        </div>
+                            <div class="form-check my-3">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="status"
+                                    id="status_completed"
+                                    value="completed"
+                                >
+                                <label class="form-check-label" for="status_completed">
+                                    Completo
+                                </label>
+                            </div>
 
-                        <!-- preço -->
-                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Data do Agendamento</label>
 
-                            <label class="form-label">
-                                Preço P/Médio
-                            </label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        id="date"
+                                        name="date"
+                                        value="{{appointment.scheduled_at}}"
+                                        required
+                                    >
+                            </div>
 
-                            <input 
-                                type="number"
-                                class="form-control"
-                                name="price_medium"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_medium }}"> 
-                        </div>
-
-                        <!-- preço -->
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Preço P/Grande
-                            </label>
-
-                            <input 
-                                type="number"
-                                class="form-control"
-                                name="price_large"
-                                step="0.01"
-                                placeholder="Digite o preço do pacote"
-                                value="{{ package.price_large }}"> 
-                        </div>
-
-
-                            <!-- Rodapé -->
-                            <div class="modal-footer">
-
-                                <button 
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal">
-
-                                    Cancelar
-
-                                </button>
-
-
-                                <button 
-                                    type="submit"
-                                    class="btn btn-primary">
-
-                                    Salvar Cliente
-
-                                </button>
-
+                            <div class="form-floating my-3">
+                                <textarea class="form-control" name="notes" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Observações</label>
                             </div>
 
 
-                    </form>
+                                <!-- Rodapé -->
+                                <div class="modal-footer">
+
+                                    <button 
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+
+                                        Cancelar
+
+                                    </button>
 
 
-                </div>
+                                    <button 
+                                        type="submit"
+                                        class="btn btn-primary">
 
+                                        Salvar Cliente
+
+                                    </button>
+
+                                </div>
+
+                        </form>
+
+                    </div>
 
             </div>
 
@@ -219,7 +227,7 @@
                 </div>
 
                 <div class="modal-body">
-                    Tem certeza que deseja excluir este cliente?
+                    Tem certeza que deseja excluir este agendamento?
                     <br><br>
                     <strong>Essa ação não poderá ser desfeita.</strong>
                 </div>
@@ -234,7 +242,7 @@
                     </button>
 
                     <form method="post"
-                        action="{{ url_for('package.delete', id_package=package.id) }}">
+                        action="{{ url_for('appointment.delete', id_appointment=appointment.id) }}">
 
                         <button
                             type="submit"

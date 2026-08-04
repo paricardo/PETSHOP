@@ -42,7 +42,7 @@ def list_one(id_pet):
 
     if pet.get("status") is False:
         flash(pet["message"], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
     try:
         return render_template("pet/info_pet.html", pet=pet)
@@ -61,11 +61,11 @@ def create():
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
 
 @pet_bp.route('/update/<int:id_pet>', methods=['POST'])
@@ -76,11 +76,11 @@ def update(id_pet):
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
 @pet_bp.route('/delete/<int:id_pet>', methods=['POST'])
 def delete(id_pet):
@@ -89,8 +89,8 @@ def delete(id_pet):
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))

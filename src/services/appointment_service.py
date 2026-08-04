@@ -18,13 +18,13 @@ class AppointmentService:
         )
 
         if not appointment_id:
-            return {"error": "Agendamento não encontrado"}, 404
+            return {"message": "Agendamento não encontrado", "status": False}
         
         appointment = {
             "id": appointment_id.id,
             "customer_id": appointment_id.customer_id_id,
             "pet_id": appointment_id.pet_id_id,
-            "service_id": appointment_id.service_id_id,
+            "package_id": appointment_id.service_id_id,
             "user_id": appointment_id.user_id_id,
             "scheduled_at": appointment_id.scheduled_at,
             "status": appointment_id.status,
@@ -45,7 +45,7 @@ class AppointmentService:
         )
 
         package = Package.get_or_none(
-            package.id == data['package_id']
+            Package.id == data['package_id']
         )
 
         user = User.get_or_none(
@@ -53,16 +53,16 @@ class AppointmentService:
         )
 
         if not customer:
-            return {"error": "Cliente e obrigatório para agendamento!!!"}, 404
+            return {"message": "Cliente e obrigatório para agendamento!!!", "status": False}
         
         if not pet:
-            return {"error": "Pet e obrigatório para agendamento!!!"}, 404
+            return {"message": "Pet e obrigatório para agendamento!!!", "status": False}
         
         if not package:
-            return {"error": "Serviço e obrigatório para agendamento!!!"}, 404
+            return {"message": "Serviço e obrigatório para agendamento!!!", "status": False}
         
         if not user:
-            return {"error": "Usuário e obrigatório para agendamento!!!"}, 404
+            return {"message": "Usuário e obrigatório para agendamento!!!", "status": False}
         
 
         Appointment.create(
@@ -75,7 +75,7 @@ class AppointmentService:
             notes = data['notes'],
         )
 
-        return {"error": "Agendamento registrado com sucesso!!!"}, 201
+        return {"message": "Agendamento registrado com sucesso!!!", "status": True}
         
 
     def update(self, data, id_appointment: int):
@@ -101,19 +101,19 @@ class AppointmentService:
         )
 
         if not appointment:
-            return {"error": "agendamento não encontrado!!!"}, 404
+            return {"message": "agendamento não encontrado!!!", "status": False}
 
         if not customer:
-            return {"error": "Cliente e obrigatório para agendamento!!!"}, 404
+            return {"message": "Cliente e obrigatório para agendamento!!!", "status": False}
         
         if not pet:
-            return {"error": "Pet e obrigatório para agendamento!!!"}, 404
+            return {"message": "Pet e obrigatório para agendamento!!!", "status": False}
         
         if not package:
-            return {"error": "Serviço e obrigatório para agendamento!!!"}, 404
+            return {"message": "Serviço e obrigatório para agendamento!!!", "status": False}
         
         if not user:
-            return {"error": "Usuário e obrigatório para agendamento!!!"}, 404
+            return {"message": "Usuário e obrigatório para agendamento!!!", "status": False}
 
         appointment.customer_id = customer
         appointment.pet_id = pet
@@ -126,8 +126,9 @@ class AppointmentService:
         appointment.save()
 
         return {
-            "message": "Agendamento atualizado com sucesso"
-        }, 200
+            "message": "Agendamento atualizado com sucesso",
+            "status": True
+        }
 
     def delete(self, id_appointment: int):
 
@@ -136,10 +137,11 @@ class AppointmentService:
         )
 
         if not appointment:
-            return {"error": "Agendamento não encontrado!!!"}
+            return {"message": "Agendamento não encontrado!!!", "status": False}
 
         appointment.delete_instance()
 
         return {
-            "message": "Agendamento removido com sucesso"
-        }, 200
+            "message": "Agendamento removido com sucesso",
+            "status": True
+        }

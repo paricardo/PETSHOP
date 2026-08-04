@@ -1,81 +1,116 @@
-from flask import Blueprint, request
 from src.services.appointment_service import AppointmentService
+from src.services.customer_service import CustomerService
+from src.services.user_service import UserService
+from src.services.package_service import PackageService
+from src.services.pet_service import PetService
+from flask import (
+    Blueprint, 
+    request, 
+    render_template,
+    redirect,
+    url_for,
+    flash
+)
 
 appointment_bp = Blueprint('appointment', __name__)
 
-service = AppointmentService()
+appointment_service = AppointmentService()
+customer_service = CustomerService()
+user_service = UserService()
+package_service = PackageService()
+pet_service = PetService()
 
 """ ROTAS DE CRUD """
 
+@appointment_bp.route('/form-add/<int:customer_id>', methods=['GET'])
+def form_add(customer_id: int):
+
+    customer = customer_service.getById(customer_id)
+    users = user_service.get()
+    packages = package_service.get()
+
+    return render_template('appointment/add_appointment.html', 
+                           customer=customer,
+                           users=users,
+                           packages=packages
+                           )
+
+
 @appointment_bp.route('/', methods=['GET'])
 def list_all():
-    result = service.get()
-
-    data = []
-
-    for c in result:
-        value = {
-            "id": c.id,
-            "customer_id": c.customer_id_id,
-            "pet_id": c.pet_id_id,
-            "service_id": c.service_id_id,
-            "user_id": c.user_id_id,
-            "scheduled_at": c.scheduled_at,
-            "status": c.status,
-            "notes": c.notes,
-            "created_at": c.created_at,
-        }
-        data.append(value)
-
-    return data
+    appointments = appointment_service.get()
+    customers = customer_service.get()
+    packages = package_service.get()
+    
+    return render_template("home/index.html", 
+                            appointments=appointments,
+                            customers=customers,
+                            packages=packages)
 
 
 @appointment_bp.route('/<int:id_appointment>', methods=['GET'])
 def list_one(id_appointment: int):
     
-    try:
-        result = service.getById(id_appointment)
+    appointment = appointment_service.getById(id_appointment)
 
-        data = [
-            {
-                "id": result.id,
-                "customer_id": result.customer_id_id,
-                "pet_id": result.pet_id_id,
-                "service_id": result.service_id_id,
-                "user_id": result.user_id_id,
-                "scheduled_at": result.scheduled_at,
-                "status": result.status,
-                "notes": result.notes,
-                "created_at": result.created_at,
-            }
-        ]
+    user = user_service.getById(appointment['user_id'])
+    customer = customer_service.getById(appointment['customer_id'])
+    package = package_service.getById(appointment['package_id'])
+    pet = pet_service.getById(appointment['pet_id'])
 
-        return data
-    except Exception:
-        return result
+    USERS = user_service.get()
+    PACKAGES = package_service.get()
+
+    return render_template('appointment/info_appointment.html',
+                            appointment=appointment,    
+                            user=user,
+                            customer=customer,
+                            package=package,
+                            pet=pet,
+                            USERS=USERS,
+                            PACKAGES=PACKAGES
+                        )
 
     
 @appointment_bp.route('/add', methods=['POST'])
 def create():
     data = request.form.to_dict()
 
-    result = service.create(data)
+    result = appointment_service.create(data)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
 
 
 @appointment_bp.route('/update/<int:id_appointment>', methods=['POST'])
 def update(id_appointment):
     data = request.form.to_dict()
 
-    result = service.update(data, id_appointment)
+    result = appointment_service.update(data, id_appointment)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
 
 
 @appointment_bp.route('/delete/<int:id_appointment>', methods=['POST'])
 def delete(id_appointment):
 
-    result = service.delete(id_appointment)
+    result = appointment_service.delete(id_appointment)
 
-    return result
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))

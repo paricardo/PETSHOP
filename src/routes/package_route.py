@@ -24,7 +24,7 @@ def list_all():
     try:
         packages = service.get()
 
-        return render_template("index/index.html", tab="packages", packages=packages)
+        return render_template("package/package.html", tab="packages", packages=packages)
     except Exception as e:
         return str(e), 500
 
@@ -49,11 +49,11 @@ def create():
 
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="packages"))
+            return redirect(url_for('package.list_all', tab="packages"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="packages"))
+        return redirect(url_for('package.list_all', tab="packages"))
 
 
 @package_bp.route('/update/<int:id_package>', methods=['POST'])
@@ -64,11 +64,11 @@ def update(id_package):
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="packages"))
+        return redirect(url_for('package.list_all', tab="packages"))
 
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="packages"))
+        return redirect(url_for('package.list_all', tab="packages"))
 
 
 @package_bp.route('/delete/<int:id_package>', methods=['POST'])
@@ -78,8 +78,8 @@ def delete(id_package):
     
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="packages"))
+            return redirect(url_for('package.list_all', tab="packages"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="packages"))
+        return redirect(url_for('package.list_all', tab="packages"))

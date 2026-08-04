@@ -7,163 +7,133 @@
     <link rel="stylesheet" href="../../static/css/style.css">
     <title>Registrar Atendimento</title>
 </head>
+
 <body data-bs-theme="dark">
+
     <header class="container-fluid bg-primary d-flex justify-content-between p-2 pt-3">
         <div class="mt-1">
             <a onclick="window.history.back()" href="#">
-                <img src="../../static/icons/retorno.svg" alt="retornar">
+                <img src="../../static/icons/retorno.svg" alt="Retornar">
             </a>
         </div>
+
         <div>
-            <h1 class="text-white">Registrar Atendimento</h1>
+            <h1 class="text-white">Novo Atendimento</h1>
         </div>
 
         <div class="mx-2"></div>
     </header>
 
-    <form class="container border p-3 mt-3 rounded" action="{{ url_for('appointment.create')}}" method="post">
+    <form class="container border p-3 mt-3 rounded"
+          action="{{ url_for('appointment.create') }}"
+          method="post">
 
+        <h4 class="my-3">{{ customer.name }}</h4>
 
-        <!-- Nome -->
+        <input
+            type="hidden"
+            name="customer_id"
+            value="{{ customer.id }}"
+        >
+
+        <!-- Pet -->
         <div class="mb-3">
+            <label class="form-label">Pet</label>
 
-            <label class="form-label">
-                Nome
-            </label>
+            <select class="form-select" name="pet_id" required>
+                <option value="" selected disabled>
+                    Selecione um pet
+                </option>
 
-            <input 
-                type="text"
-                class="form-control"
-                name="name"
-                placeholder="Digite o nome">
-
+                {% for pet in customer.pets %}
+                    <option value="{{ pet.id }}">
+                        {{ pet.name }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
-
-
-        <!-- Telefone -->
+        <!-- Funcionário -->
         <div class="mb-3">
+            <label class="form-label">Funcionário</label>
 
-            <label class="form-label">
-                Telefone
-            </label>
+            <select class="form-select" name="user_id" required>
+                <option value="" selected disabled>
+                    Selecione um usuário
+                </option>
 
-            <input 
-                type="tel"
-                class="form-control"
-                name="phone"
-                placeholder="(00) 00000-0000">
-
+                {% for user in users %}
+                    <option value="{{ user.id }}">
+                        {{ user.name }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
-
-
-        <!-- Email -->
+        <!-- Serviço -->
         <div class="mb-3">
+            <label class="form-label">Serviço</label>
 
-            <label class="form-label">
-                Email
-            </label>
+            <select class="form-select" name="package_id" required>
+                <option value="" selected disabled>
+                    Selecione um serviço
+                </option>
 
-            <input 
-                type="email"
-                class="form-control"
-                name="email"
-                placeholder="email@email.com">
-
+                {% for package in packages %}
+                    <option value="{{ package.id }}">
+                        {{ package.name }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
+        <!-- Status -->
+        <div class="form-check my-3">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="status"
+                name="status"
+            >
 
-
-        <!-- Endereço -->
-        <div class="mb-3">
-
-            <label class="form-label" for="address">
-                Endereço
+            <label class="form-check-label" for="status">
+                Em andamento
             </label>
-
-            <textarea
-                class="form-control"
-                id="address"
-                name="address"
-                rows="3"
-                placeholder="Rua, número, bairro"></textarea>
-
         </div>
 
-
-
-        <!-- Notas -->
+        <!-- Data -->
         <div class="mb-3">
-
-            <label class="form-label">
-                Notas
+            <label for="date" class="form-label">
+                Data do Agendamento
             </label>
 
+            <input
+                type="date"
+                class="form-control"
+                id="date"
+                name="scheduled_at"
+                required
+            >
+        </div>
+
+        <!-- Observações -->
+        <div class="form-floating my-3">
             <textarea
                 class="form-control"
                 name="notes"
-                rows="4"
-                placeholder="Observações sobre o cliente">
-            </textarea>
+                id="floatingTextarea2"
+                placeholder="Observações"
+                style="height: 100px"
+            ></textarea>
 
-        </div>
-
-
-
-        <!-- Status -->
-        <div class="mb-3">
-
-            <label class="form-label d-block">
-                Status
+            <label for="floatingTextarea2">
+                Observações
             </label>
-
-
-            <div class="form-check form-check-inline">
-
-                <input
-                    class="form-check-input"
-                    type="radio"
-                    name="is_active"
-                    id="active"
-                    value="active"
-                    checked>
-
-                <label 
-                    class="form-check-label"
-                    for="active">
-
-                    Ativo
-
-                </label>
-
-            </div>
-
-
-
-            <div class="form-check form-check-inline">
-
-                <input
-                    class="form-check-input"
-                    type="radio"
-                    name="is_active"
-                    id="inactive"
-                    value="inactive">
-
-                <label 
-                    class="form-check-label"
-                    for="inactive">
-
-                    Inativo
-
-                </label>
-
-            </div>
-
-
         </div>
 
-        <input class="btn btn-primary w-100" type="submit" value="Cadastrar">
+        <button class="btn btn-primary w-100" type="submit">
+            Cadastrar
+        </button>
 
     </form>
 

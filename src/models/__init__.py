@@ -1,5 +1,5 @@
 from peewee import Model, AutoField, DateTimeField, SqliteDatabase
-from src.utils.validators import now_without_seconds
+from src.utils.validators import validate_hours
 from config import Config
 from pathlib import Path
 
@@ -9,7 +9,7 @@ db = SqliteDatabase(BASE_DIR / Config.DATABASE)
 
 class BaseModel(Model):
     id = AutoField()
-    created_at = DateTimeField(default=now_without_seconds)
+    created_at = validate_hours()
 
     class Meta:
         database = db

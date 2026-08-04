@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 """ VALIDAÇÃO DE DATA """
-def now_without_seconds():
+def validate_hours():
     return datetime.now().replace(second=0, microsecond=0)
 
 

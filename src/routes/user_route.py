@@ -22,7 +22,7 @@ def list_all():
     try:
         users = service.get()
 
-        return render_template("index/index.html", tab="user", users=users)
+        return render_template("user/user.html", tab="user", users=users)
     except Exception as e:
         return str(e), 500
 
@@ -46,11 +46,11 @@ def create():
 
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="user"))
+            return redirect(url_for('user.list_all', tab="user"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="user"))
+        return redirect(url_for('user.list_all', tab="user"))
 
 
 @user_bp.route('/update/<int:id_user>', methods=['POST'])
@@ -61,11 +61,11 @@ def update(id_user):
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="user"))
+        return redirect(url_for('user.list_all', tab="user"))
 
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="user"))
+        return redirect(url_for('user.list_all', tab="user"))
 
 @user_bp.route('/delete/<int:id_user>', methods=['POST'])
 def delete(id_user):
@@ -74,8 +74,8 @@ def delete(id_user):
         
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="user"))
+            return redirect(url_for('user.list_all', tab="user"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="user"))
+        return redirect(url_for('user.list_all', tab="user"))

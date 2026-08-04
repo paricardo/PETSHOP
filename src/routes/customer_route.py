@@ -21,7 +21,7 @@ def list_all():
     try:
         customers = service.get()
 
-        return render_template("index/index.html", tab="customers", customers=customers)
+        return render_template("customer/customer.html", tab="customers", customers=customers)
     except Exception as e:
         return str(e), 500
 
@@ -46,11 +46,11 @@ def create():
 
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="customers"))
+            return redirect(url_for('customer.list_all', tab="customers"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
 
 @customer_bp.route('/update/<int:id_customer>', methods=['POST'])
@@ -61,11 +61,11 @@ def update(id_customer):
 
     if result['status'] == True:
         flash(result['message'], "success")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))
 
 
 
@@ -76,8 +76,8 @@ def delete(id_customer):
 
     if result['status'] == True:
             flash(result['message'], "success")
-            return redirect(url_for('index.index', tab="customers"))
+            return redirect(url_for('customer.list_all', tab="customers"))
     
     if result['status'] == False:
         flash(result['message'], "danger")
-        return redirect(url_for('index.index', tab="customers"))
+        return redirect(url_for('customer.list_all', tab="customers"))

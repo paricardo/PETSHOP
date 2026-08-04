@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Agendamentos</title>
+</head>
+<body data-bs-theme="dark">
+    
+    <nav class="navbar bg-primary fixed-top">
+        <div class="container-fluid">
+            <img style="margin-left: -20px; width: 130px; height: auto;" src="../../static/images/petRepetLogo2.png" alt="logo">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Pet Repet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item d-flex gap-2">
+                            <img style="width: 20px; height: auto;" src="../../static/icons/home.svg">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for("home.index") }}">Home</a>
+                        </li>
+
+                        <li class="nav-item d-flex gap-2">
+                            <img style="width: 20px; height: auto;" src="../../static/icons/customer.svg">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for("customer.list_all") }}">Clientes</a>
+                        </li>
+
+                        <li class="nav-item d-flex gap-2">
+                            <img style="width: 20px; height: auto;" src="../../static/icons/calendar.svg">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for("appointment.list_all") }}">Agendamentos</a>
+                        </li>
+
+                        <li class="nav-item d-flex gap-2">
+                            <img style="width: 20px; height: auto;" src="../../static/icons/service.svg">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for("package.list_all") }}">Pacotes</a>
+                        </li>
+
+                        <li class="nav-item d-flex gap-2">
+                            <img style="width: 20px; height: auto;" src="../../static/icons/user.svg">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for("user.list_all") }}">Usuários</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container-fluid py-4 navbar bg-primary d-flex justify-content-between mt-5">
+        <div class="container">
+            <div>
+                <span class="navbar-brand mb-0 h1 text-white">Olá, Paulo!</span>
+            </div>
+            <div>
+                <a href="#"><span class="mx-0 nav-brand mb-0 text-white">logout</span></a>
+                <a href="#"><img class="mx-2" src="../../static/icons/logout.svg" alt="logout"></a>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container mt-5">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <main class="container">
+            <div class="d-flex justify-content-start">
+                <h2>Agendamentos</h2>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <h5>Acesso rápido</h5>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#searchCustomerModal">
+
+                    Novo Atendimento
+                </button>
+            </div>
+
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Encontre o agendamento</label>
+                    <input 
+                        type="email" 
+                        class="form-control w-100" 
+                        id="exampleInputEmail1" 
+                        aria-describedby="emailHelp"
+                        placeholder="Digite o nome ou data"
+                        >
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
+            </form>
+
+           {% for appointment in appointments %}
+                
+                <a href="{{ url_for('appointment.list_one', id_appointment=appointment.id) }}" class="text-decoration-none mt-3">
+                    <div class="d-flex flex-column shadow mt-3 pt-3 px-2 border mb-2 rounded">
+                        <p class="text-white">ID do atendimento: {{appointment.id}}</p>
+                        {%  for customer in customers %}
+                            {% if customer.id == appointment.customer_id_id %}
+                                <p class="text-white">Cliente: {{customer.name}}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                        {%  for pet in pets %}
+                            {% if pet.id == appointment.pet_id_id %}
+                                <p class="text-white">Pet: {{pet.name}}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                        {%  for package in packages %}
+                            {% if package.id == appointment.package_id_id %}
+                                <p class="text-white">Pacote: {{package.name}}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                        {%  for user in users %}
+                            {% if user.id == appointment.user_id_id %}
+                                <p class="text-white">Usuário: {{user.name}}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                        <p class="text-white">Agendado em: {{appointment.scheduled_at}}</p>
+                        <p class="text-white">Status: {{appointment.status}}</p>
+                        <p class="text-white">Observações: {{appointment.notes}}</p>
+                    </div>
+                </a>
+
+            {% endfor %}
+
+        </main>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="searchCustomerModal" tabindex="-1" aria-labelledby="searchCustomerModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchCustomerModalLabel">
+                            Pesquisar Cliente para Novo Atendimento
+                        </h5>
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar">
+                        </button>
+                    </div>
+
+                    <form action="" method="post">
+
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="search" class="form-label">
+                                    Nome ou Telefone
+                                </label>
+
+                                <input
+                                    type="search"
+                                    class="form-control"
+                                    id="search"
+                                    name="search"
+                                    placeholder="Digite o nome ou telefone"
+                                    autocomplete="off"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary">
+                                Pesquisar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    {% for customer in customers %}
+                    
+                        <a href="{{ url_for('appointment.add', customer_id=customer.id) }}" class="text-decoration-none mt-3">
+                            <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
+                                <p class="text-truncate text-white" style="max-width: 100px;">{{customer.id}}</p>
+                                <p class="text-truncate text-white" style="max-width: 100px;">{{customer.name}}</p>
+                                <p class="text-truncate text-white" style="max-width: 100px;">{{customer.phone}}</p>
+                            </div>
+                        </a>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
