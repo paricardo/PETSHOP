@@ -22,6 +22,20 @@ pet_service = PetService()
 
 """ ROTAS DE CRUD """
 
+@appointment_bp.route('/completed-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+def completed_appointments(id_appointment: int):
+
+    result = appointment_service.completed_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
+    
+
 @appointment_bp.route('/form-add/<int:customer_id>', methods=['GET'])
 def form_add(customer_id: int):
 
@@ -42,7 +56,7 @@ def list_all():
     customers = customer_service.get()
     packages = package_service.get()
     
-    return render_template("home/index.html", 
+    return render_template("appointment/appointment.html", 
                             appointments=appointments,
                             customers=customers,
                             packages=packages)

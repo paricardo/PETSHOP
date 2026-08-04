@@ -160,8 +160,16 @@
                     {% endfor %}
 
                     <p class="text-white">Agendado em: {{appointment.scheduled_at}}</p>
-                    <p class="text-white">Status: {{appointment.status}}</p>
+                    {% if appointment.status == "in_progress" %}
+                        <p class="text-white">Status: Em andamento</p>
+                    {% elif appointment.status == "canceled" %}
+                        <p class="text-white">Status: Cancelado</p>
+                    {% elif appointment.status == "completed" %}
+                        <p class="text-white">Status: Completo</p>
+                    {% endif %}
+                    
                     <p class="text-white">Observações: {{appointment.notes}}</p>
+
                 </div>
             </a>
 
@@ -245,7 +253,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="../../static/js/bootstrap.bundle.min.js"></script>
 </body>

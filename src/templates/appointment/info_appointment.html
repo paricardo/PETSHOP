@@ -32,8 +32,16 @@
             <p>Preço P/Pequeno: {{package.price_small}} R$</p>
             <p>Preço P/Médio: {{package.price_medium}} R$</p>
             <p>Preço P/Grande: {{package.price_large}} R$</p>
+
+            {% if appointment.status == "in_progress" %}
+                <p class="text-white">Status: Em andamento</p>
+            {% elif appointment.status == "canceled" %}
+                <p class="text-white">Status: Cancelado</p>
+            {% elif appointment.status == "completed" %}
+                <p class="text-white">Status: Completo</p>
+            {% endif %}
+
             <p>Data agendamento: {{appointment.scheduled_at}}</p>
-            <p>Data Criação: {{appointment.created_at}}</p>
         </div>
               
         <button 
@@ -53,6 +61,18 @@
             data-bs-toggle="modal"
             data-bs-target="#confirmDelete">
             Deletar
+        </button>
+
+
+        <!-- Botão para abrir o modal -->
+        <button
+            type="button"
+            class="btn btn-success mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#completeServiceModal"
+            style="width: 100%;"
+        >
+            Finalizar Serviço
         </button>
 
     </main>
@@ -252,6 +272,66 @@
 
                     </form>
 
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Confirmação -->
+    <div
+        class="modal fade"
+        id="completeServiceModal"
+        tabindex="-1"
+        aria-labelledby="completeServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="completeServiceModalLabel">
+                        Confirmar Finalização
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja finalizar este serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Concluído (Completed)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.completed_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            Sim, finalizar serviço
+                        </button>
+                    </form>
                 </div>
 
             </div>

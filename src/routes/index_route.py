@@ -6,19 +6,19 @@ from src.services.package_service import PackageService
 
 index_bp = Blueprint('home', __name__)
 
-userService = UserService()
-appointmentService = AppointmentService()
-packageService = PackageService()
-customerService = CustomerService()
+user_service = UserService()
+appointment_service = AppointmentService()
+package_service = PackageService()
+customer_service = CustomerService()
 
 @index_bp.route("/", methods=['GET'])
 def index():
 
-    appointments = appointmentService.get()
-    customers = customerService.get()
-    packages = packageService.get()
+    appointments = appointment_service.get()
+    customers = customer_service.get()
+    packages = package_service.get()
     
     return render_template("home/index.html", 
-                           appointments=appointments,
-                           customers=customers,
-                           packages=packages)
+                            appointments=appointments,
+                            customers=customers,
+                            packages=packages)

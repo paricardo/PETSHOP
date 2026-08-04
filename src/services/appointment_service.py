@@ -6,6 +6,22 @@ from src.models.package import Package
 
 class AppointmentService:
 
+    def completed_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = 'completed'
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+
     def get(self):
         data = Appointment.select()
 
@@ -24,7 +40,7 @@ class AppointmentService:
             "id": appointment_id.id,
             "customer_id": appointment_id.customer_id_id,
             "pet_id": appointment_id.pet_id_id,
-            "package_id": appointment_id.service_id_id,
+            "package_id": appointment_id.package_id_id,
             "user_id": appointment_id.user_id_id,
             "scheduled_at": appointment_id.scheduled_at,
             "status": appointment_id.status,
