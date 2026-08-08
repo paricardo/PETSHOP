@@ -3,7 +3,7 @@ from src.services.customer_service import CustomerService
 
 customer_bp = Blueprint('customer', __name__)
 
-service = CustomerService()
+customer_service = CustomerService()
 
 """ RENDERIZAÇÃO DE TELAS """
 
@@ -13,13 +13,30 @@ def form_add():
      return render_template("customer/add_customer.html")
 
 
+@customer_bp.route("/search", methods=['GET', 'POST'])
+def search_customers():
+    query = request.form.get('search', '') or request.args.get('query', '')
+    query = query.strip()
+
+    if query:
+        customers = customer_service.search(query)
+    else:
+        customers = []
+
+    return render_template(
+        "customer/customer.html",
+        customers=customers,
+        search_query=query,
+    )
+
+
 """ ROTAS DE CRUD """
 
 @customer_bp.route('/', methods=['GET'])
 def list_all():
 
     try:
-        customers = service.get()
+        customers = customer_service.get()
 
         return render_template("customer/customer.html", tab="customers", customers=customers)
     except Exception as e:
@@ -30,7 +47,7 @@ def list_all():
 def list_one(id_customer: int):
     
     try:
-        customer = service.getById(id_customer)
+        customer = customer_service.getById(id_customer)
 
         return render_template("customer/info_customer.html", customer=customer)
     except Exception as e:
@@ -42,7 +59,7 @@ def list_one(id_customer: int):
 def create():
     data = request.form.to_dict()
 
-    result = service.create(data)
+    result = customer_service.create(data)
 
     if result['status'] == True:
             flash(result['message'], "success")
@@ -57,7 +74,7 @@ def create():
 def update(id_customer):
     data = request.form.to_dict()
 
-    result = service.update(data, id_customer)
+    result = customer_service.update(data, id_customer)
 
     if result['status'] == True:
         flash(result['message'], "success")
@@ -72,7 +89,7 @@ def update(id_customer):
 @customer_bp.route('/delete/<int:id_customer>', methods=['POST'])
 def delete(id_customer):
 
-    result = service.delete(id_customer)
+    result = customer_service.delete(id_customer)
 
     if result['status'] == True:
             flash(result['message'], "success")

@@ -7,6 +7,15 @@ from src.utils.validators import (
 
 class CustomerService:
 
+    def search(self, query: str):
+        customers = Customer.select().where(
+            (Customer.name.contains(query)) |
+            (Customer.phone.contains(query)) |
+            (Customer.email.contains(query))
+        )
+
+        return customers
+
     def get(self):
         data = Customer.select()
 
@@ -61,6 +70,9 @@ class CustomerService:
         if valid_email == True:
             email = data['email']
 
+        if Customer.select().where(Customer.email == email).exists():
+            return {"message": "Email já cadastrado!!!", "status": False}
+
         if valid_email == False:
             return {"message": "Email invalido!!!", "status": False}
         
@@ -71,6 +83,9 @@ class CustomerService:
 
         if status == False:
             return {"message": "Telefone Invalido!!!", "status": False}
+
+        if Customer.select().where(Customer.phone == phone).exists():
+            return {"message": "Telefone já cadastrado!!!", "status": False}
 
         if data['is_active'] == "True":
             is_active = True

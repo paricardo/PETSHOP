@@ -1,10 +1,11 @@
 from src.models import BaseModel
-from peewee import CharField ,TextField, DecimalField
+from peewee import CharField ,TextField, DecimalField, IntegerField
 
 
 class Package(BaseModel):
     name = CharField(null=False)
     services = TextField()
+    quantity = IntegerField(null=False, default=1)
 
     price_small = DecimalField(
         max_digits=10, 

@@ -30,6 +30,7 @@
             <p>Preço P/Pequeno: {{package.price_small}} R$</p>
             <p>Preço P/Médio: {{package.price_medium}} R$</p>
             <p>Preço P/Grande: {{package.price_large}} R$</p>
+            <p>Quantidade de atendimentos: {{package.quantity}}</p>
             <p>Data Criação: {{package.created_at}}</p>
         </div>
               
@@ -164,6 +165,22 @@
                                 step="0.01"
                                 placeholder="Digite o preço do pacote"
                                 value="{{ package.price_large }}"> 
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Quantidade de atendimentos
+                            </label>
+
+                            <input 
+                                type="number"
+                                class="form-control"
+                                name="quantity"
+                                step="0.01"
+                                placeholder="Digite a quantidade de atendimentos"
+                                value="{{ package.quantity }}">
+
                         </div>
 
 

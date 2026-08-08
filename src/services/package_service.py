@@ -47,6 +47,7 @@ class PackageService:
             price_small = data['price_small'],
             price_medium = data['price_medium'],
             price_large = data['price_large'],
+            quantity = data['quantity']
         )
 
         return {"message": "Pacote cadastrado com sucesso", "status": True}
@@ -75,6 +76,7 @@ class PackageService:
         package.price_small = data['price_small']
         package.price_medium = data['price_medium']
         package.price_large = data['price_large']
+        package.quantity = data['quantity']
 
         package.save()
 

@@ -1,10 +1,9 @@
 import re
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
-
-""" VALIDAÇÃO DE DATA """
-def validate_hours():
-    return datetime.now().replace(second=0, microsecond=0)
+def current_datetime():
+    return datetime.now(ZoneInfo("America/Sao_Paulo"))
 
 
 """ VALIDAÇÃO DE EMAIL """

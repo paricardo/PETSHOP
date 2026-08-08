@@ -5,7 +5,7 @@ from src.routes.customer_route import customer_bp
 from src.routes.pet_route import pet_bp
 from src.routes.package_route import package_bp
 from src.routes.appointment_route import appointment_bp
-from src.routes.index_route import index_bp
+from src.routes.home_route import index_bp
 from src.routes.user_route import user_bp
 
 def create_app():

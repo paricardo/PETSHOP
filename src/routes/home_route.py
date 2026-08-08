@@ -22,3 +22,5 @@ def index():
                             appointments=appointments,
                             customers=customers,
                             packages=packages)
+
+   
