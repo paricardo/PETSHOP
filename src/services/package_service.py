@@ -3,6 +3,13 @@ from src.models.package import Package
 
 class PackageService:
 
+    def search(self, query: str):
+        packages = Package.select().where(
+            (Package.name.contains(query))
+        )
+
+        return packages
+
     def get(self):
         data = Package.select()
 

@@ -84,15 +84,14 @@
             <h2>Pacotes</h2>
                 <a class="btn bg-success text-white text-center pt-2" href="{{url_for('package.form_add')}}">Cadastrar +</a>
             </div>
-            <form>
+            <form action="{{ url_for('package.search_package') }}" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Encontre o Pacote</label>
+                    <label for="search" class="form-label">Encontre o Pacote</label>
                     <input
-                        type="email"
+                        type="text"
                         class="form-control w-100"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
                         placeholder="Digite o nome do pacote"
+                        name="search"
                         >
                 </div>
         

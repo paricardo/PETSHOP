@@ -34,11 +34,11 @@
             <p>Preço P/Grande: {{package.price_large}} R$</p>
 
             {% if appointment.status == "in_progress" %}
-                <p class="text-white">Status: Em andamento</p>
+                <p class="text-white">Status: <span class="bg-warning p-1 rounded">Em andamento</span></p>
             {% elif appointment.status == "canceled" %}
-                <p class="text-white">Status: Cancelado</p>
-            {% elif appointment.status == "completed" %}
-                <p class="text-white">Status: Completo</p>
+                <p class="text-white">Status: <span class="bg-danger p-1 rounded">Cancelado</span></p>
+            {% else %}
+                <p class="text-white">Status: <span class="bg-success p-1 rounded">Completo</span></p>
             {% endif %}
 
             <p>Data agendamento: {{appointment.scheduled_at}}</p>

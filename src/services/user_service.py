@@ -4,6 +4,14 @@ from src.utils.validators import validate_email
 
 class UserService:
 
+    def search(self, query: str):
+        users = User.select().where(
+            (User.name.contains(query)) |
+            (User.email.contains(query))
+        )
+
+        return users
+
     def get(self):
         data = User.select()
 

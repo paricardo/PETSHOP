@@ -88,15 +88,15 @@
             <h2>Usuários</h2>
             <a class="btn bg-success text-white text-center pt-2" href="{{url_for('user.form_add')}}">Cadastrar +</a>
         </div>
-        <form>
+        <form action="{{ url_for('user.search_users') }}" method="post">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Encontre o Usuário</label>
+                <label for="search" class="form-label">Encontre o Usuário</label>
                 <input
                     type="text"
                     class="form-control w-100"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
                     placeholder="Digite o nome do usuário"
+                    id="search"
+                    name="search"
                     >
             </div>
         
@@ -110,9 +110,9 @@
                     <p class="text-white" style="max-width: 100px;">{{user.name}}</p>
                     <p class="text-truncate text-white" style="max-width: 100px;">{{user.email}}</p>
                     {% if user.is_active == True %}
-                        <p class="text-truncate text-white" style="max-width: 100px;">Ativo</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-success p-1 rounded">Ativo</span></p>
                     {% else %}
-                        <p class="text-truncate text-white" style="max-width: 100px;">Inativo</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-secondary p-1 rounded">Inativo</span></p>
                     {% endif %}
                 </div>
             </a>

@@ -96,14 +96,13 @@
                 </a>
             </div>
 
-            <form>
+            <form action="{{ url_for('customer.search_customers') }}" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Pesquise o cliente</label>
+                    <label for="search" class="form-label">Pesquise o cliente</label>
                     <input 
                         type="text" 
                         name="search"
                         class="form-control w-100" 
-                        id="exampleInputEmail1" 
                         placeholder="Digite o nome ou telefone"
                         >
                 </div>

@@ -10,17 +10,36 @@ from flask import (
 
 user_bp = Blueprint('user', __name__)
 
-service = UserService()
+user_service = UserService()
 
 @user_bp.route('/form-add', methods=['GET'])
 def form_add():
 
      return render_template("user/add_user.html")
 
+
+@user_bp.route("/search", methods=['GET', 'POST'])
+def search_users():
+    query = request.form.get('search', '') or request.args.get('query', '')
+    query = query.strip()
+
+    if query:
+        users = user_service.search(query)
+    else:
+        users = []
+
+    return render_template(
+        "user/user.html",
+        users=users,
+        search_query=query,
+    )
+
+
+
 @user_bp.route('/', methods=['GET'])
 def list_all():
     try:
-        users = service.get()
+        users = user_service.get()
 
         return render_template("user/user.html", tab="user", users=users)
     except Exception as e:
@@ -30,7 +49,7 @@ def list_all():
 @user_bp.route('/<int:id_user>', methods=['GET'])
 def list_one(id_user):
     try:
-        user = service.getById(id_user)
+        user = user_service.getById(id_user)
 
         return render_template("user/info_user.html", user=user)
     except Exception as e:
@@ -42,7 +61,7 @@ def list_one(id_user):
 def create():
     data = request.form.to_dict()
         
-    result = service.create(data)
+    result = user_service.create(data)
 
     if result['status'] == True:
             flash(result['message'], "success")
@@ -57,7 +76,7 @@ def create():
 def update(id_user):
     data = request.form.to_dict()
         
-    result = service.update(data, id_user)
+    result = user_service.update(data, id_user)
 
     if result['status'] == True:
         flash(result['message'], "success")
@@ -70,7 +89,7 @@ def update(id_user):
 @user_bp.route('/delete/<int:id_user>', methods=['POST'])
 def delete(id_user):
     
-    result = service.delete(id_user)
+    result = user_service.delete(id_user)
         
     if result['status'] == True:
             flash(result['message'], "success")

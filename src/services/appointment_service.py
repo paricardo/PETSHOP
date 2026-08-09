@@ -6,6 +6,15 @@ from src.models.package import Package
 
 class AppointmentService:
 
+    def search(self, query: str):
+        appointments = Appointment.select().where(
+            (Appointment.scheduled_at.contains(query))
+        )
+
+        return appointments
+
+
+    # Este serviço é responsável por concluir uma tarefa em aberto
     def completed_appointments(self, appointment_id: int):
         appointment = Appointment.get_or_none(
             Appointment.id == appointment_id

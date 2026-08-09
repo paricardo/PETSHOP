@@ -10,19 +10,35 @@ from flask import (
 
 package_bp = Blueprint('package', __name__)
 
-service = PackageService()
+package_service = PackageService()
 
 @package_bp.route('/form-add', methods=['GET'])
 def form_add():
 
      return render_template("package/add_package.html")
 
+@package_bp.route('/search', methods=['POST'])
+def search_package():
+    query = request.form.get('search', '') or request.args.get('query', '')
+    query = query.strip()
+
+    if query:
+        packages = package_service.search(query)
+    else:
+        packages = []
+
+    return render_template(
+        "package/package.html",
+        packages=packages,
+        search_query=query,
+    )
+
 """ ROTAS DE CRUD """
 
 @package_bp.route('/', methods=['GET'])
 def list_all():
     try:
-        packages = service.get()
+        packages = package_service.get()
 
         return render_template("package/package.html", tab="packages", packages=packages)
     except Exception as e:
@@ -33,7 +49,7 @@ def list_all():
 def list_one(id_package: int):
     
     try:
-        package = service.getById(id_package)
+        package = package_service.getById(id_package)
 
         return render_template("package/info_package.html", package=package)
     except Exception as e:
@@ -45,7 +61,7 @@ def list_one(id_package: int):
 def create():
     data = request.form.to_dict()
     
-    result = service.create(data)
+    result = package_service.create(data)
 
     if result['status'] == True:
             flash(result['message'], "success")
@@ -60,7 +76,7 @@ def create():
 def update(id_package):
     data = request.form.to_dict()
     
-    result = service.update(data, id_package)
+    result = package_service.update(data, id_package)
 
     if result['status'] == True:
         flash(result['message'], "success")
@@ -74,7 +90,7 @@ def update(id_package):
 @package_bp.route('/delete/<int:id_package>', methods=['POST'])
 def delete(id_package):
 
-    result = service.delete(id_package)
+    result = package_service.delete(id_package)
     
     if result['status'] == True:
             flash(result['message'], "success")

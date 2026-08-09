@@ -22,6 +22,23 @@ pet_service = PetService()
 
 """ ROTAS DE CRUD """
 
+
+@appointment_bp.route("/search", methods=['GET', 'POST'])
+def search_appointments():
+    query = request.form.get('search', '') or request.args.get('query', '')
+    query = query.strip()
+
+    if query:
+        appointments = appointment_service.search(query)
+    else:
+        appointments = []
+
+    return render_template(
+        "appointment/appointment.html",
+        appointments=appointments,
+        search_query=query,
+    )
+
 @appointment_bp.route('/completed-appointments/<int:id_appointment>', methods=['GET', 'POST'])
 def completed_appointments(id_appointment: int):
 

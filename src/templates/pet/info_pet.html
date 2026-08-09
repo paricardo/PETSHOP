@@ -35,9 +35,9 @@
             <p>Raça: {{pet.breed}}</p>
             <p>Observações: {{pet.notes}}</p>
             {% if pet.is_active == True %}
-                <p>Status: Ativo</p>
+                <p>Status: <span class="bg-success p-1 rounded">Ativo</span></p>
             {% else %}
-                <p>Status: Inativo</p>
+                <p>Status: <span class="bg-secondary p-1 rounded">Inativo</span></p>
             {% endif %}
             <p>Data criação: {{pet.created_at}}</p>
         </div>
