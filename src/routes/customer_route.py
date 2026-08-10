@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from src.services.customer_service import CustomerService
+from src.utils.decorators.auth_decorator import login_required
 
 customer_bp = Blueprint('customer', __name__)
 
@@ -14,6 +15,7 @@ def form_add():
 
 
 @customer_bp.route("/search", methods=['GET', 'POST'])
+@login_required
 def search_customers():
     query = request.form.get('search', '') or request.args.get('query', '')
     query = query.strip()
@@ -33,6 +35,7 @@ def search_customers():
 """ ROTAS DE CRUD """
 
 @customer_bp.route('/', methods=['GET'])
+@login_required
 def list_all():
 
     try:
@@ -44,6 +47,7 @@ def list_all():
 
 
 @customer_bp.route('/<int:id_customer>', methods=['GET'])
+@login_required
 def list_one(id_customer: int):
     
     try:
@@ -56,6 +60,7 @@ def list_one(id_customer: int):
 
     
 @customer_bp.route('/add', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
 
@@ -71,6 +76,7 @@ def create():
 
 
 @customer_bp.route('/update/<int:id_customer>', methods=['POST'])
+@login_required
 def update(id_customer):
     data = request.form.to_dict()
 
@@ -87,6 +93,7 @@ def update(id_customer):
 
 
 @customer_bp.route('/delete/<int:id_customer>', methods=['POST'])
+@login_required
 def delete(id_customer):
 
     result = customer_service.delete(id_customer)

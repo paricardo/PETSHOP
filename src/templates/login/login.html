@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Login</title>
+</head>
+<body data-bs-theme="dark">
+
+    
+    <main class="container-fluid d-flex flex-column align-items-center">
+        <img style="width: 300px; height: auto; margin-right: 50px;" src="../../static/images/logo_azul.png" alt="Logo">
+            
+        <form action="{{ url_for('auth.auth') }}" method="post" style="max-width: 550px;" class="w-100 border shadow rounded p-5">
+            <div style="margin-left: 10px;">
+                <label for="email" class="form-label">E-mail:</label>
+            </div>
+            <input type="email" id="email" name="email" class="form-control mt-0 m-2 w-100" required>
+
+            <div style="margin-left: 10px;">
+                <label for="email" class="form-label">Senha:</label>
+            </div>
+            <input type="password" id="password" name="password" class="form-control mt-0 m-2 w-100" required>
+
+            <input type="submit" value="Entrar" class="btn btn-primary mt-3 m-2 w-100">
+        </form>
+
+        <div class="mt-5">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <footer class="fixed-bottom text-center mb-5">
+            <a href="#"> Suporte </a>
+        </footer>
+    </main>
+
+    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

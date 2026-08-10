@@ -3,6 +3,7 @@ from src.services.user_service import UserService
 from src.services.appointment_service import AppointmentService
 from src.services.customer_service import CustomerService
 from src.services.package_service import PackageService
+from src.utils.decorators.auth_decorator import login_required
 
 index_bp = Blueprint('home', __name__)
 
@@ -12,6 +13,7 @@ package_service = PackageService()
 customer_service = CustomerService()
 
 @index_bp.route("/", methods=['GET'])
+@login_required
 def index():
 
     appointments = appointment_service.get()

@@ -1,0 +1,43 @@
+<nav class="navbar bg-primary fixed-top">
+    <div class="container-fluid">
+        <img style="margin-left: -20px; width: 130px; height: auto;" src="../../static/images/petRepetLogo2.png" alt="logo">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Pet Repet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item d-flex gap-2">
+                        <img style="width: 20px; height: auto;" src="../../static/icons/home.svg">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for("home.index") }}">Home</a>
+                    </li>
+
+                    <li class="nav-item d-flex gap-2">
+                        <img style="width: 20px; height: auto;" src="../../static/icons/customer.svg">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for("customer.list_all") }}">Clientes</a>
+                    </li>
+
+                    <li class="nav-item d-flex gap-2">
+                        <img style="width: 20px; height: auto;" src="../../static/icons/calendar.svg">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for("appointment.list_all") }}">Agendamentos</a>
+                    </li>
+
+                    <li class="nav-item d-flex gap-2">
+                        <img style="width: 20px; height: auto;" src="../../static/icons/service.svg">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for("package.list_all") }}">Pacotes</a>
+                    </li>
+
+                    <li class="nav-item d-flex gap-2">
+                        <img style="width: 20px; height: auto;" src="../../static/icons/user.svg">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for("user.list_all") }}">Usuários</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

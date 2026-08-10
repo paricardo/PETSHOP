@@ -7,13 +7,15 @@ from src.routes.package_route import package_bp
 from src.routes.appointment_route import appointment_bp
 from src.routes.home_route import index_bp
 from src.routes.user_route import user_bp
+from src.routes.auth_route import auth_bp
 
 def create_app():
     app = Flask(__name__)
 
     app.config.from_object(DevelopmentConfig)
 
-    app.register_blueprint(index_bp, url_predix="")
+    app.register_blueprint(auth_bp, url_prefix="")
+    app.register_blueprint(index_bp, url_prefix="/home")
     app.register_blueprint(customer_bp, url_prefix="/customers")
     app.register_blueprint(pet_bp, url_prefix='/pets')
     app.register_blueprint(package_bp, url_prefix="/packages")

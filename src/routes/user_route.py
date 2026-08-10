@@ -1,4 +1,5 @@
 from src.services.user_service import UserService
+from src.utils.decorators.auth_decorator import login_required
 from flask import (
     Blueprint, 
     request, 
@@ -13,12 +14,14 @@ user_bp = Blueprint('user', __name__)
 user_service = UserService()
 
 @user_bp.route('/form-add', methods=['GET'])
+@login_required
 def form_add():
 
      return render_template("user/add_user.html")
 
 
 @user_bp.route("/search", methods=['GET', 'POST'])
+@login_required
 def search_users():
     query = request.form.get('search', '') or request.args.get('query', '')
     query = query.strip()
@@ -37,6 +40,7 @@ def search_users():
 
 
 @user_bp.route('/', methods=['GET'])
+@login_required
 def list_all():
     try:
         users = user_service.get()
@@ -47,6 +51,7 @@ def list_all():
 
 
 @user_bp.route('/<int:id_user>', methods=['GET'])
+@login_required
 def list_one(id_user):
     try:
         user = user_service.getById(id_user)
@@ -58,6 +63,7 @@ def list_one(id_user):
 
 
 @user_bp.route('/add', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
         
@@ -73,6 +79,7 @@ def create():
 
 
 @user_bp.route('/update/<int:id_user>', methods=['POST'])
+@login_required
 def update(id_user):
     data = request.form.to_dict()
         
@@ -87,6 +94,7 @@ def update(id_user):
         return redirect(url_for('user.list_all', tab="user"))
 
 @user_bp.route('/delete/<int:id_user>', methods=['POST'])
+@login_required
 def delete(id_user):
     
     result = user_service.delete(id_user)

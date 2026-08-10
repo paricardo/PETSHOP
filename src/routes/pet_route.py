@@ -1,5 +1,6 @@
 from src.services.pet_service import PetService
 from src.services.customer_service import CustomerService
+from src.utils.decorators.auth_decorator import login_required
 from flask import Blueprint, request, flash, url_for, redirect, render_template
 
 pet_bp = Blueprint('pet', __name__)
@@ -9,12 +10,14 @@ service = PetService()
 customerService = CustomerService()
 
 @pet_bp.route('/form-add/<int:id_customer>', methods=['GET', 'POST'])
+@login_required
 def form_add(id_customer):
     customer = customerService.getById(id_customer)    
 
     return render_template("pet/add_pet.html" , customer=customer )
 
 @pet_bp.route('/', methods=['GET'])
+@login_required
 def list_all():
     result = service.get()
 
@@ -36,6 +39,7 @@ def list_all():
 
 
 @pet_bp.route('/<int:id_pet>', methods=['GET'])
+@login_required
 def list_one(id_pet):
 
     pet = service.getById(id_pet)
@@ -52,6 +56,7 @@ def list_one(id_pet):
 
 
 @pet_bp.route('/add', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
 
@@ -69,6 +74,7 @@ def create():
 
 
 @pet_bp.route('/update/<int:id_pet>', methods=['POST'])
+@login_required
 def update(id_pet):
     data = request.form.to_dict()
 
@@ -83,6 +89,7 @@ def update(id_pet):
         return redirect(url_for('customer.list_all', tab="customers"))
 
 @pet_bp.route('/delete/<int:id_pet>', methods=['POST'])
+@login_required
 def delete(id_pet):
     
     result = service.delete(id_pet)

@@ -5,6 +5,7 @@ from src.models.customer import Customer
 from src.models.pet import Pet
 from src.models.package import Package
 from src.models.appointment import Appointment
+from werkzeug.security import generate_password_hash
 
 def initialize_database():
     db.connect()
@@ -20,5 +21,5 @@ def initialize_database():
         User.create(
             name=Config.USER_NAME,
             email=Config.USER_EMAIL,
-            password=Config.USER_PASSWORD,
+            password=generate_password_hash(Config.USER_PASSWORD)
         )

@@ -1,4 +1,5 @@
 from src.services.package_service import PackageService
+from src.utils.decorators.auth_decorator import login_required
 from flask import (
     Blueprint, 
     request, 
@@ -13,11 +14,13 @@ package_bp = Blueprint('package', __name__)
 package_service = PackageService()
 
 @package_bp.route('/form-add', methods=['GET'])
+@login_required
 def form_add():
 
      return render_template("package/add_package.html")
 
 @package_bp.route('/search', methods=['POST'])
+@login_required
 def search_package():
     query = request.form.get('search', '') or request.args.get('query', '')
     query = query.strip()
@@ -36,6 +39,7 @@ def search_package():
 """ ROTAS DE CRUD """
 
 @package_bp.route('/', methods=['GET'])
+@login_required
 def list_all():
     try:
         packages = package_service.get()
@@ -46,6 +50,7 @@ def list_all():
 
 
 @package_bp.route('/<int:id_package>', methods=['GET'])
+@login_required
 def list_one(id_package: int):
     
     try:
@@ -58,6 +63,7 @@ def list_one(id_package: int):
 
     
 @package_bp.route('/add', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
     
@@ -73,6 +79,7 @@ def create():
 
 
 @package_bp.route('/update/<int:id_package>', methods=['POST'])
+@login_required
 def update(id_package):
     data = request.form.to_dict()
     
@@ -88,6 +95,7 @@ def update(id_package):
 
 
 @package_bp.route('/delete/<int:id_package>', methods=['POST'])
+@login_required
 def delete(id_package):
 
     result = package_service.delete(id_package)

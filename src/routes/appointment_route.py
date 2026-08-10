@@ -3,6 +3,7 @@ from src.services.customer_service import CustomerService
 from src.services.user_service import UserService
 from src.services.package_service import PackageService
 from src.services.pet_service import PetService
+from src.utils.decorators.auth_decorator import login_required
 from flask import (
     Blueprint, 
     request, 
@@ -24,6 +25,7 @@ pet_service = PetService()
 
 
 @appointment_bp.route("/search", methods=['GET', 'POST'])
+@login_required
 def search_appointments():
     query = request.form.get('search', '') or request.args.get('query', '')
     query = query.strip()
@@ -40,6 +42,7 @@ def search_appointments():
     )
 
 @appointment_bp.route('/completed-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
 def completed_appointments(id_appointment: int):
 
     result = appointment_service.completed_appointments(id_appointment)
@@ -54,6 +57,7 @@ def completed_appointments(id_appointment: int):
     
 
 @appointment_bp.route('/form-add/<int:customer_id>', methods=['GET'])
+@login_required
 def form_add(customer_id: int):
 
     customer = customer_service.getById(customer_id)
@@ -68,6 +72,7 @@ def form_add(customer_id: int):
 
 
 @appointment_bp.route('/', methods=['GET'])
+@login_required
 def list_all():
     appointments = appointment_service.get()
     customers = customer_service.get()
@@ -80,6 +85,7 @@ def list_all():
 
 
 @appointment_bp.route('/<int:id_appointment>', methods=['GET'])
+@login_required
 def list_one(id_appointment: int):
     
     appointment = appointment_service.getById(id_appointment)
@@ -104,6 +110,7 @@ def list_one(id_appointment: int):
 
     
 @appointment_bp.route('/add', methods=['POST'])
+@login_required
 def create():
     data = request.form.to_dict()
 
@@ -119,6 +126,7 @@ def create():
 
 
 @appointment_bp.route('/update/<int:id_appointment>', methods=['POST'])
+@login_required
 def update(id_appointment):
     data = request.form.to_dict()
 
@@ -134,6 +142,7 @@ def update(id_appointment):
 
 
 @appointment_bp.route('/delete/<int:id_appointment>', methods=['POST'])
+@login_required
 def delete(id_appointment):
 
     result = appointment_service.delete(id_appointment)
