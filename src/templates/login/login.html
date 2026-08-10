@@ -6,6 +6,26 @@
     <link rel="stylesheet" href="../../static/css/style.css">
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     <title>Login</title>
+    <style>
+        @media (max-width: 767px) {
+           .form-mobile {
+                border: none !important;
+                box-shadow: none !important;
+                display: flex;
+                flex-direction: column;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .label-mobile {
+                margin-left: -290px !important;
+            }
+
+            .input-mobile {
+                width: 350px !important;
+            }
+        }
+    </style>
 </head>
 <body data-bs-theme="dark">
 
@@ -13,18 +33,18 @@
     <main class="container-fluid d-flex flex-column align-items-center">
         <img style="width: 300px; height: auto; margin-right: 50px;" src="../../static/images/logo_azul.png" alt="Logo">
             
-        <form action="{{ url_for('auth.auth') }}" method="post" style="max-width: 550px;" class="w-100 border shadow rounded p-5">
-            <div style="margin-left: 10px;">
+        <form action="{{ url_for('auth.auth') }}" method="post" style="max-width: 550px;" class="form-mobile w-100 border shadow rounded p-5">
+            <div class="label-mobile" style="margin-left: 10px;">
                 <label for="email" class="form-label">E-mail:</label>
             </div>
-            <input type="email" id="email" name="email" class="form-control mt-0 m-2 w-100" required>
+            <input type="email" id="email" name="email" class="input-mobile form-control mt-0 m-2 w-100" required>
 
-            <div style="margin-left: 10px;">
+            <div class="label-mobile" style="margin-left: 10px;">
                 <label for="email" class="form-label">Senha:</label>
             </div>
-            <input type="password" id="password" name="password" class="form-control mt-0 m-2 w-100" required>
+            <input type="password" id="password" name="password" class="input-mobile form-control mt-0 m-2 w-100" required>
 
-            <input type="submit" value="Entrar" class="btn btn-primary mt-3 m-2 w-100">
+            <input type="submit" value="Entrar" class="input-mobile btn btn-primary mt-3 m-2 w-100">
         </form>
 
         <div class="mt-5">
