@@ -1,4 +1,4 @@
-from peewee import Model, AutoField, DateTimeField
+from peewee import Model, AutoField, DateTimeField, SqliteDatabase
 from playhouse.db_url import connect
 from src.utils.validators import current_datetime
 from config import Config
