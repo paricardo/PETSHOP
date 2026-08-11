@@ -75,6 +75,9 @@ class UserService:
             User.id == id_user
         )
 
+        if user.role == "Super":
+            return {"message": "Usuário não pode ser deletado", "status": False}
+
         if not data['email']:
             return {"message": "Email do usuário e obrigatório", "status": False}
 
@@ -111,6 +114,9 @@ class UserService:
         user = User.get_or_none(
             User.id == id_user
         )
+
+        if user.role == "Super":
+            return {"message": "Usuário não pode ser deletado", "status": False}
 
         if not user:
             return {"message": "Usuário não encontrado!!!", "status": False}

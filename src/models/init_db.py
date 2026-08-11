@@ -21,5 +21,6 @@ def initialize_database():
         User.create(
             name=Config.USER_NAME,
             email=Config.USER_EMAIL,
-            password=generate_password_hash(Config.USER_PASSWORD)
+            password=generate_password_hash(Config.USER_PASSWORD),
+            role=Config.USER_ROLE
         )

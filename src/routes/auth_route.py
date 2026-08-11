@@ -33,6 +33,7 @@ def auth():
 
     session["user_id"] = result["id"]
     session["user_name"] = result["name"]
+    session["user_role"] = result["role"]
 
     return redirect(url_for("home.index"))
 

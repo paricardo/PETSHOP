@@ -13,60 +13,63 @@
     {% include "components/header.html" %}
 
 
-    <main class="container mt-5">
+    {% if user_role == "User" %}
+        <h2 class="text-center">Usuário sem permissão a esta tela.</h2>
+    {% else %}
+        <main class="container mt-5">
 
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="alert">
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        </div>
-
-        <div class="d-flex justify-content-between">
-            <h2>Usuários</h2>
-            <a class="btn bg-success text-white text-center pt-2" href="{{url_for('user.form_add')}}">Cadastrar +</a>
-        </div>
-        <form action="{{ url_for('user.search_users') }}" method="post">
-            <div class="mb-3">
-                <label for="search" class="form-label">Encontre o Usuário</label>
-                <input
-                    type="text"
-                    class="form-control w-100"
-                    placeholder="Digite o nome do usuário"
-                    id="search"
-                    name="search"
-                    >
-            </div>
-        
-            <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
-        </form>
-        {% for user in users %}
-        
-            <a href="{{ url_for('user.list_one', id_user=user.id) }}" class="text-decoration-none mt-3">
-                <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
-                    <p class="text-truncate text-white" style="max-width: 100px;">{{user.id}}</p>
-                    <p class="text-white" style="max-width: 100px;">{{user.name}}</p>
-                    <p class="text-truncate text-white" style="max-width: 100px;">{{user.email}}</p>
-                    {% if user.is_active == True %}
-                        <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-success p-1 rounded">Ativo</span></p>
-                    {% else %}
-                        <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-secondary p-1 rounded">Inativo</span></p>
+            <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert">
+                                </button>
+                            </div>
+                        {% endfor %}
                     {% endif %}
-                </div>
-            </a>
-        {% endfor %}
-    </main>
+                {% endwith %}
+            </div>
 
+            <div class="d-flex justify-content-between">
+                <h2>Usuários</h2>
+                <a class="btn bg-success text-white text-center pt-2" href="{{url_for('user.form_add')}}">Cadastrar +</a>
+            </div>
+            <form action="{{ url_for('user.search_users') }}" method="post">
+                <div class="mb-3">
+                    <label for="search" class="form-label">Encontre o Usuário</label>
+                    <input
+                        type="text"
+                        class="form-control w-100"
+                        placeholder="Digite o nome do usuário"
+                        id="search"
+                        name="search"
+                        >
+                </div>
+            
+                <button type="submit" class="btn btn-primary w-100">Pesquisar</button>
+            </form>
+            {% for user in users %}
+            
+                <a href="{{ url_for('user.list_one', id_user=user.id) }}" class="text-decoration-none mt-3">
+                    <div class="d-flex justify-content-between shadow align-items-center mt-3 pt-3 px-2 border mb-2 rounded">
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{user.id}}</p>
+                        <p class="text-white" style="max-width: 100px;">{{user.name}}</p>
+                        <p class="text-truncate text-white" style="max-width: 100px;">{{user.email}}</p>
+                        {% if user.is_active == True %}
+                            <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-success p-1 rounded">Ativo</span></p>
+                        {% else %}
+                            <p class="text-truncate text-white" style="max-width: 100px;"><span class="bg-secondary p-1 rounded">Inativo</span></p>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </main>
+    {% endif %}
     <script src="../../static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

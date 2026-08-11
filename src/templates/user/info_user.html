@@ -36,26 +36,26 @@
             <p>Data Criação: {{user.created_at}}</p>
         </div>
         
-        {% if user.role == Admin %}
-            <button 
-                type="button"
-                class="btn btn-primary w-100 mt-3"
-                data-bs-toggle="modal"
-                data-bs-target="#editUser">
 
-                Editar
+        <button 
+            type="button"
+            class="btn btn-primary w-100 mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#editUser">
 
-            </button>
+            Editar
+
+        </button>
 
 
-            <button
-                type="button"
-                class="btn btn-danger w-100 mt-3"
-                data-bs-toggle="modal"
-                data-bs-target="#confirmDelete">
-                Deletar
-            </button>
-        {% endif %}
+        <button
+            type="button"
+            class="btn btn-danger w-100 mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmDelete">
+            Deletar
+        </button>
+
     </main>
 
 

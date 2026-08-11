@@ -25,5 +25,6 @@ class AuthService:
         return {
             "status": True,
             "id": user.id,
-            "name": user.name
+            "name": user.name,
+            "role": user.role
         }

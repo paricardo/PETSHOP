@@ -15,6 +15,7 @@ class Config:
     USER_NAME = os.getenv('USER_NAME')
     USER_EMAIL = os.getenv('USER_EMAIL')
     USER_PASSWORD = os.getenv('USER_PASSWORD')
+    USER_ROLE = os.getenv('USER_ROLE')
 
 
 class DevelopmentConfig(Config):
