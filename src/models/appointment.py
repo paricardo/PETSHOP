@@ -32,6 +32,7 @@ class Appointment(BaseModel):
         on_delete="CASCADE"
     )
 
+    final_price = DecimalField(null=False, max_digits=10, decimal_places=2)
     scheduled_at = DateTimeField()
     status = CharField(default="in_progress")
     notes = TextField()

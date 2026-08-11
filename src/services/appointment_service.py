@@ -95,6 +95,7 @@ class AppointmentService:
             pet_id = pet,
             package_id = package,
             user_id = user,
+            final_price = data['final_price'],
             scheduled_at = data['scheduled_at'],
             status = data['status'] or 'in_progress',
             notes = data['notes'],

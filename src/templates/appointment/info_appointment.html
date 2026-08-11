@@ -30,8 +30,9 @@
             <p>Pacote: {{package.name}}</p>
             <p>Serviços: {{package.services}}</p>
             <p>Preço P/Pequeno: {{package.price_small}} R$</p>
-            <p>Preço P/Médio: {{package.price_medium}} R$</p>
-            <p>Preço P/Grande: {{package.price_large}} R$</p>
+            <p>Preço P/Médio: R${{package.price_medium}} R$</p>
+            <p>Preço P/Grande: R${{package.price_large}} R$</p>
+            <p>Preço Final: R${{appointment.final_price}} R$</p>
 
             {% if appointment.status == "in_progress" %}
                 <p class="text-white">Status: <span class="bg-warning p-1 rounded">Em andamento</span></p>
@@ -136,6 +137,14 @@
                                     <option value="{{ pack.id }}">{{ pack.name }}</option>
                                 {% endfor %}
                             </select>
+
+                            <div class="mb-3">
+                                <input 
+                                    type="number" 
+                                    name="final_price"
+                                    value="{{ appointment.final_price }}" 
+                                    placeholder="Digite o valor deste atendimento...">
+                            </div>
 
                             <input type="hidden" id="package_id" name="package_id">
 

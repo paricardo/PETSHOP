@@ -87,10 +87,6 @@ class CustomerService:
         if Customer.select().where(Customer.phone == phone).exists():
             return {"message": "Telefone já cadastrado!!!", "status": False}
 
-        if data['is_active'] == "True":
-            is_active = True
-        else:
-            is_active = False
 
         Customer.create(
             name = data['name'],
@@ -98,7 +94,7 @@ class CustomerService:
             email = email or '',
             address = data['address'],
             notes = data.get('notes'),
-            is_active = is_active,
+            is_active = True,
         )
 
         return {"message": "Cliente cadastrado com sucesso", "status": True}

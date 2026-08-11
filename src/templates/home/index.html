@@ -106,6 +106,8 @@
                     {% elif appointment.status == "completed" %}
                         <p class="text-white">Status: <span class="bg-success rounded p-1">Completo</span></p>
                     {% endif %}
+
+                    <p class="text-white"> Preço Final: R${{ appointment.final_price }}</p>
                     
                     <p class="text-white">Observações: {{appointment.notes}}</p>
 
