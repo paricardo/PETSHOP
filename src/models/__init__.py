@@ -1,11 +1,10 @@
-from peewee import Model, AutoField, DateTimeField, SqliteDatabase
+from peewee import Model, AutoField, DateTimeField
+from playhouse.db_url import connect
 from src.utils.validators import current_datetime
 from config import Config
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-db = SqliteDatabase(BASE_DIR / Config.DATABASE)
+db = connect(Config.DATABASE_URL)
 
 class BaseModel(Model):
     id = AutoField()

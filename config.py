@@ -9,6 +9,8 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     
     DATABASE = os.getenv('DATABASE')
+
+    DATABASE_URL= os.getenv('DATABASE_URL')
     
     USER_NAME = os.getenv('USER_NAME')
     USER_EMAIL = os.getenv('USER_EMAIL')
