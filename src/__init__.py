@@ -1,6 +1,6 @@
 from flask import Flask
 from src.models.init_db import initialize_database
-from config import DevelopmentConfig
+from config import DevelopmentConfig, ProductionConfig
 from src.routes.customer_route import customer_bp
 from src.routes.pet_route import pet_bp
 from src.routes.package_route import package_bp
@@ -12,7 +12,7 @@ from src.routes.auth_route import auth_bp
 def create_app():
     app = Flask(__name__)
 
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(ProductionConfig)
 
     app.register_blueprint(auth_bp, url_prefix="")
     app.register_blueprint(index_bp, url_prefix="/home")
