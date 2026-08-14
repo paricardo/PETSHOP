@@ -1,18 +1,21 @@
 from peewee import Model, AutoField, DateTimeField, SqliteDatabase
 from playhouse.db_url import connect
-from src.utils.validators import current_datetime
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from config import Config
 from pathlib import Path
 
-#BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-#db = SqliteDatabase(BASE_DIR / Config.DATABASE)
-
 db = connect(Config.DATABASE_URL)
+
+def agora_sp():
+    return datetime.now(ZoneInfo("America/Sao_Paulo"))
+
+class TimestampTZField(DateTimeField):
+    field_type = 'TIMESTAMPTZ'
 
 class BaseModel(Model):
     id = AutoField()
-    created_at = DateTimeField(default=current_datetime)
+    created_at = TimestampTZField(default=agora_sp)
 
     class Meta:
         database = db

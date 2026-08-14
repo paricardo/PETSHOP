@@ -1,9 +1,7 @@
 from src.models.customer import Customer
 from src.models.pet import Pet
-from src.utils.validators import (
-    format_phone,
-    validate_email
-)
+from src.utils.validators.format_phone import format_phone
+from src.utils.validators.format_email import validate_email
 
 class CustomerService:
 

@@ -3,6 +3,7 @@ from src.models.user import User
 from src.models.customer import Customer
 from src.models.pet import Pet
 from src.models.package import Package
+from src.utils.validators.format_data import formatar_data_sp
 
 class AppointmentService:
 
@@ -88,6 +89,8 @@ class AppointmentService:
         
         if not user:
             return {"message": "Usuário e obrigatório para agendamento!!!", "status": False}
+
+        scheduled_at = formatar_data_sp(data['scheduled_at'])
         
 
         Appointment.create(
@@ -96,7 +99,7 @@ class AppointmentService:
             package_id = package,
             user_id = user,
             final_price = data['final_price'],
-            scheduled_at = data['scheduled_at'],
+            scheduled_at = scheduled_at,
             status = data['status'] or 'in_progress',
             notes = data['notes'],
         )
@@ -141,11 +144,13 @@ class AppointmentService:
         if not user:
             return {"message": "Usuário e obrigatório para agendamento!!!", "status": False}
 
+        scheduled_at = formatar_data_sp(data['scheduled_at'])
+
         appointment.customer_id = customer
         appointment.pet_id = pet
         appointment.package_id_id = package
         appointment.user_id = user
-        appointment.scheduled_at = data['scheduled_at']
+        appointment.scheduled_at = scheduled_at
         appointment.status = data['status']
         appointment.notes = data['notes']
 

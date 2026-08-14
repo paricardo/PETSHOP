@@ -1,6 +1,6 @@
 from src.models.user import User
 from werkzeug.security import generate_password_hash
-from src.utils.validators import validate_email
+from src.utils.validators.format_email import validate_email
 
 class UserService:
 

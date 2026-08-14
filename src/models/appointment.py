@@ -33,7 +33,7 @@ class Appointment(BaseModel):
     )
 
     final_price = DecimalField(null=False, max_digits=10, decimal_places=2)
-    scheduled_at = DateTimeField()
+    scheduled_at = CharField()
     status = CharField(default="in_progress")
     notes = TextField()
 
