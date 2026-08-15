@@ -36,6 +36,7 @@ class CustomerService:
             "phone": customer_id.phone,
             "email": customer_id.email,
             "address": customer_id.address,
+            "sector": customer_id.sector,
             "notes": customer_id.notes,
             "is_active": customer_id.is_active,
             "created_at": customer_id.created_at,
@@ -62,6 +63,9 @@ class CustomerService:
 
 
     def create(self, data):
+
+        if not data['email']:
+            email = ''
 
         valid_email = validate_email(data['email']) 
 
@@ -91,6 +95,7 @@ class CustomerService:
             phone = phone,
             email = email or '',
             address = data['address'],
+            sector = data['sector'],
             notes = data.get('notes'),
             is_active = True,
         )
@@ -134,6 +139,7 @@ class CustomerService:
         customer.phone = phone
         customer.email = email or ''
         customer.address = data["address"]
+        customer.sector = data['sector']
         customer.notes = data["notes"] or None
         customer.is_active = is_active
 

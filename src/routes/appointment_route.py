@@ -54,6 +54,81 @@ def completed_appointments(id_appointment: int):
     if result['status'] == False:
         flash(result['message'], "danger")
         return redirect(url_for('home.index'))
+
+
+@appointment_bp.route('/finished-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
+def finished_appointments(id_appointment: int):
+
+    result = appointment_service.finished_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
+
+
+@appointment_bp.route('/in-progress-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
+def in_progress_appointments(id_appointment: int):
+
+    result = appointment_service.in_progress_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
+
+
+@appointment_bp.route('/canceled-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
+def canceled_appointments(id_appointment: int):
+
+    result = appointment_service.canceled_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
+
+
+@appointment_bp.route('/scheduled-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
+def scheduled_appointments(id_appointment: int):
+
+    result = appointment_service.scheduled_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
+
+
+@appointment_bp.route('/payment-appointments/<int:id_appointment>', methods=['GET', 'POST'])
+@login_required
+def awaiting_payment_appointments(id_appointment: int):
+
+    result = appointment_service.awaiting_payment_appointments(id_appointment)
+
+    if result['status'] == True:
+        flash(result['message'], "success")
+        return redirect(url_for('home.index'))
+    
+    if result['status'] == False:
+        flash(result['message'], "danger")
+        return redirect(url_for('home.index'))
     
 
 @appointment_bp.route('/form-add/<int:customer_id>', methods=['GET'])

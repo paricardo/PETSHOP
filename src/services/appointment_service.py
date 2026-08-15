@@ -4,6 +4,8 @@ from src.models.customer import Customer
 from src.models.pet import Pet
 from src.models.package import Package
 from src.utils.validators.format_data import formatar_data_sp
+from src.utils.enum.status_appointment import StatusAppointment
+
 
 class AppointmentService:
 
@@ -24,13 +26,103 @@ class AppointmentService:
         if not appointment:
             return {"message": "Agendamento não encontrado", "status": False}
         
-        appointment.status = 'completed'
+        appointment.status = StatusAppointment.COMPLETED.value
         appointment.save()
 
         return {
             "message": "Agendamento concluído com sucesso",
             "status": True
         }
+
+
+    # Este serviço é responsável por finalizar uma tarefa em aberto
+    def finished_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = StatusAppointment.FINISHED.value
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+
+
+    # Este serviço é responsável por inicializar uma tarefa
+    def in_progress_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = StatusAppointment.IN_PROGRESS.value
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+
+    # Este serviço é responsável por cancelar uma tarefa em aberto
+    def canceled_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = StatusAppointment.CANCELED.value
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+
+    # Este serviço é responsável por agendar uma tarefa 
+    def scheduled_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = StatusAppointment.SCHEDULED.value
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+
+
+    # Este serviço é responsável por aguardar pagamento de uma tarefa em aberto
+    def awaiting_payment_appointments(self, appointment_id: int):
+        appointment = Appointment.get_or_none(
+            Appointment.id == appointment_id
+        )
+
+        if not appointment:
+            return {"message": "Agendamento não encontrado", "status": False}
+        
+        appointment.status = StatusAppointment.PAYMENT.value
+        appointment.save()
+
+        return {
+            "message": "Agendamento concluído com sucesso",
+            "status": True
+        }
+    
+    
 
     def get(self):
         data = Appointment.select()
@@ -91,6 +183,8 @@ class AppointmentService:
             return {"message": "Usuário e obrigatório para agendamento!!!", "status": False}
 
         scheduled_at = formatar_data_sp(data['scheduled_at'])
+
+        status = StatusAppointment(data['status']).value
         
 
         Appointment.create(
@@ -100,7 +194,7 @@ class AppointmentService:
             user_id = user,
             final_price = data['final_price'],
             scheduled_at = scheduled_at,
-            status = data['status'] or 'in_progress',
+            status = status,
             notes = data['notes'],
         )
 
@@ -151,7 +245,7 @@ class AppointmentService:
         appointment.package_id_id = package
         appointment.user_id = user
         appointment.scheduled_at = scheduled_at
-        appointment.status = data['status']
+        appointment.status = StatusAppointment(data['status']).value
         appointment.notes = data['notes']
 
         appointment.save()

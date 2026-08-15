@@ -3,29 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <title>Login</title>
-    <style>
-        @media (max-width: 767px) {
-           .form-mobile {
-                border: none !important;
-                box-shadow: none !important;
-                display: flex;
-                flex-direction: column;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-
-            .label-mobile {
-                margin-left: -290px !important;
-            }
-
-            .input-mobile {
-                width: 350px !important;
-            }
-        }
-    </style>
 </head>
 <body data-bs-theme="dark">
 

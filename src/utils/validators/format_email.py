@@ -1,3 +1,5 @@
+import re
+
 """ VALIDAÇÃO DE EMAIL """
 def validate_email(email: str) -> str | bool:
     """

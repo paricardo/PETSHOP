@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
     <title>Info Pacote</title>
 </head>
 <body data-bs-theme="dark">
@@ -14,13 +15,83 @@
             </a>
         </div>
         <div>
-            <h1 class="text-white">Informações Pacote</h1>
+            <h1 class="text-white">Agendamento</h1>
         </div>
 
         <div class="mx-2"></div>
     </header>
 
     <main class="container">
+
+        <div class="div-icons-tab d-flex justify-content-around mb-5">
+            <!-- Botão para abrir o modal -->
+            <button
+                type="button"
+                class="btn btn-dark border border-primary mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#completedServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/completed.png" alt="completed" style="width: 40px; height: auto;">
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-dark border border-success mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#finishedServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/finished.png" alt="finished" style="width: 40px; height: auto;">
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-dark border border-warning mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#in_progressServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/in_progress.png" alt="in_progress" style="width: 40px; height: auto;">
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-dark border border-danger mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#canceledServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/canceled.png" alt="canceled" style="width: 40px; height: auto;">
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-dark border border-info mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#scheduledServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/scheduled.png" alt="scheduled" style="width: 40px; height: auto;">
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-dark border border-secondary mt-3"
+                data-bs-toggle="modal"
+                data-bs-target="#paymentServiceModal"
+                style="width: 70px; height: 55px;"
+                class="btn-icons-info-appointment"
+            >
+                <img class="icons-info-appointment" src="../../static/icons/payment.png" alt="payment" style="width: 40px; height: auto;">
+            
+            </button>
+        </div>
 
         <h6 class="mt-3 ">Pacote</h6>
         <div id="infoPackage" class="border rounded p-2">
@@ -34,17 +105,26 @@
             <p>Preço P/Grande: R${{package.price_large}} R$</p>
             <p>Preço Final: R${{appointment.final_price}} R$</p>
 
-            {% if appointment.status == "in_progress" %}
-                <p class="text-white">Status: <span class="bg-warning p-1 rounded">Em andamento</span></p>
-            {% elif appointment.status == "canceled" %}
-                <p class="text-white">Status: <span class="bg-danger p-1 rounded">Cancelado</span></p>
-            {% else %}
-                <p class="text-white">Status: <span class="bg-success p-1 rounded">Completo</span></p>
-            {% endif %}
+            <p>Endereço: {{ customer.address }}</p>
+            <p>Endereço: {{ customer.sector }}</p>
 
+            {% if appointment.status == "in_progress" %}
+                <p class="text-white">Status: <span class="bg-warning rounded p-1">Em andamento</span></p>
+            {% elif appointment.status == "canceled" %}
+                <p class="text-white">Status: <span class="bg-danger rounded p-1">Cancelado</span></p>
+            {% elif appointment.status == "completed" %}
+                <p class="text-white">Status: <span class="bg-primary rounded p-1">Completo</span></p>
+            {% elif appointment.status == "scheduled" %}
+                <p class="text-white">Status: <span class="bg-info rounded p-1">Agendado</span></p>
+            {% elif appointment.status == "finished" %}
+                <p class="text-white">Status: <span class="bg-success rounded p-1">Finalizado</span></p>
+            {% elif appointment.status == "payment" %}
+                <p class="text-white">Status: <span class="bg-light rounded p-1">Aguardando Pagamento</span></p>
+            {% endif %}
+ 
             <p>Data agendamento: {{appointment.scheduled_at}}</p>
         </div>
-              
+        <!--      
         <button 
             type="button"
             class="btn btn-primary w-100 mt-3"
@@ -54,26 +134,14 @@
             Editar
 
         </button>
-
+        -->
 
         <button
             type="button"
-            class="btn btn-danger w-100 mt-3"
+            class="btn btn-danger w-100 mt-3 mb-5"
             data-bs-toggle="modal"
             data-bs-target="#confirmDelete">
             Deletar
-        </button>
-
-
-        <!-- Botão para abrir o modal -->
-        <button
-            type="button"
-            class="btn btn-success mt-3"
-            data-bs-toggle="modal"
-            data-bs-target="#completeServiceModal"
-            style="width: 100%;"
-        >
-            Finalizar Serviço
         </button>
 
     </main>
@@ -140,6 +208,7 @@
 
                             <div class="mb-3">
                                 <input 
+                                    class="form-control"
                                     type="number" 
                                     name="final_price"
                                     value="{{ appointment.final_price }}" 
@@ -148,44 +217,87 @@
 
                             <input type="hidden" id="package_id" name="package_id">
 
-                            <div class="form-check my-3">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="status"
-                                    id="status_in_progress"
-                                    value="in_progress"
-                                    checked
-                                >
-                                <label class="form-check-label" for="status_in_progress">
-                                    Em andamento
-                                </label>
-                            </div>
+                            <div class="d-flex justify-content-around">
+                                <div class="primeira-div">
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status_in_progress"
+                                            value="in_progress"
+                                            checked
+                                        >
+                                        <label class="form-check-label" for="status_in_progress">
+                                            Em andamento
+                                        </label>
+                                    </div>
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status"
+                                            value="scheduled"
+                                            checked
+                                        >
+                                        <label class="form-check-label" for="status_in_progress">
+                                            Agendado
+                                        </label>
+                                    </div>
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status"
+                                            value="finished"
+                                            checked
+                                        >
+                                        <label class="form-check-label" for="status_in_progress">
+                                            Finalizado
+                                        </label>
+                                    </div>
+                                </div>
 
-                            <div class="form-check my-3">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="status"
-                                    id="status_canceled"
-                                    value="canceled"
-                                >
-                                <label class="form-check-label" for="status_canceled">
-                                    Cancelado
-                                </label>
-                            </div>
-
-                            <div class="form-check my-3">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="status"
-                                    id="status_completed"
-                                    value="completed"
-                                >
-                                <label class="form-check-label" for="status_completed">
-                                    Completo
-                                </label>
+                                <div class="segunda-div">
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status"
+                                            value="canceled"
+                                        >
+                                        <label class="form-check-label" for="status_canceled">
+                                            Cancelado
+                                        </label>
+                                    </div>
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status_completed"
+                                            value="completed"
+                                        >
+                                        <label class="form-check-label" for="status_completed">
+                                            Completo
+                                        </label>
+                                    </div>
+                                    <div class="form-check my-3">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="status"
+                                            id="status_completed"
+                                            value="payment"
+                                        >
+                                        <label class="form-check-label" for="status_completed">
+                                            Aguardando Pagamento
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-3">
@@ -288,10 +400,10 @@
     </div>
 
 
-    <!-- Modal de Confirmação -->
+    <!-- Modal de Conclusão -->
     <div
         class="modal fade"
-        id="completeServiceModal"
+        id="completedServiceModal"
         tabindex="-1"
         aria-labelledby="completeServiceModalLabel"
         aria-hidden="true"
@@ -301,7 +413,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="completeServiceModalLabel">
-                        Confirmar Finalização
+                        Confirmar Conclusão
                     </h5>
 
                     <button
@@ -314,7 +426,7 @@
 
                 <div class="modal-body">
                     <p class="mb-0">
-                        Tem certeza de que deseja finalizar este serviço?
+                        Tem certeza de que deseja concluir este serviço?
                     </p>
                     <small class="text-muted">
                         Após a confirmação, o status será alterado para <strong>Concluído (Completed)</strong>.
@@ -336,9 +448,309 @@
                     >
                         <button
                             type="submit"
+                            class="btn btn-primary"
+                        >
+                            Sim, Concluir serviço
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Finalização -->
+    <div
+        class="modal fade"
+        id="finishedServiceModal"
+        tabindex="-1"
+        aria-labelledby="finishedServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="finishedServiceModalLabel">
+                        Confirmar Finalização
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja Finaliza este serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Finalizado (Finished)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.finished_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
                             class="btn btn-success"
                         >
                             Sim, finalizar serviço
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Inicialização -->
+    <div
+        class="modal fade"
+        id="in_progressServiceModal"
+        tabindex="-1"
+        aria-labelledby="in_progressServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="in_progressServiceModalLabel">
+                        Confirmar Inicialização
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja Iniciar este serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Em Aberto (In Progress)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.in_progress_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-warning"
+                        >
+                            Sim, Iniciar serviço
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Cancelamento -->
+    <div
+        class="modal fade"
+        id="canceledServiceModal"
+        tabindex="-1"
+        aria-labelledby="canceledServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="canceledServiceModalLabel">
+                        Confirmar Cancelamento
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja Cancelar este serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Cancelado (Canceled)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.canceled_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+                            Sim, Cancelar serviço
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Agendamento -->
+    <div
+        class="modal fade"
+        id="scheduledServiceModal"
+        tabindex="-1"
+        aria-labelledby="scheduledServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scheduledServiceModalLabel">
+                        Confirmar Agendamento
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja Agendar este serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Agendado (Scheduled)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.scheduled_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-info"
+                        >
+                            Sim, Agendar serviço
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para aguardar pagamento -->
+    <div
+        class="modal fade"
+        id="paymentServiceModal"
+        tabindex="-1"
+        aria-labelledby="paymentServiceModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentServiceModalLabel">
+                        Aguardar Pagamento
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Tem certeza de que deseja Aguardar Pagamento deste serviço?
+                    </p>
+                    <small class="text-muted">
+                        Após a confirmação, o status será alterado para <strong>Aguardando Pagamento (Awaiting Payment)</strong>.
+                    </small>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+
+                    <form
+                        action="{{ url_for('appointment.awaiting_payment_appointments', id_appointment=appointment.id) }}"
+                        method="post"
+                    >
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            Sim, Aguardar pagamento
                         </button>
                     </form>
                 </div>

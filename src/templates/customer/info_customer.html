@@ -36,6 +36,7 @@
             <p>Telefone: {{customer.phone}}</p>
             <p>Email: {{customer.email}}</p>
             <p>Endereço: {{customer.address}}</p>
+            <p>Setor: {{ customer.sector }}</p>
             <p>Observações: {{customer.notes}}</p>
             {% if customer.is_active == True %}
                 <p>Status: <span class="bg-success p-1 rounded">Ativo</span></p>
@@ -194,6 +195,18 @@
                                 placeholder="Rua, número, bairro"
                                 value="{{ customer.address }}">
 
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sector" class="form-label">Setor</label>
+
+                            <input 
+                                type="text"
+                                class="form-control"
+                                name="sector"
+                                placeholder="Jardim Alto Paraiso"
+                                value="{{ customer.sector }}">
+                            
                         </div>
 
 

@@ -1,0 +1,55 @@
+<h2 class="text-center mt-5">Aguardando Pagamanto</h2>
+
+{% for appointment in appointments %}
+    {% if appointment.status == "payment"%}                
+        <a href="{{ url_for('appointment.list_one', id_appointment=appointment.id) }}" class="text-decoration-none mt-3">
+            <div class="d-flex flex-column shadow mt-3 pt-3 px-2 border border-light mb-2 rounded">
+                <p class="text-white">ID do atendimento: {{appointment.id}}</p>
+                {%  for customer in customers %}
+                    {% if customer.id == appointment.customer_id_id %}
+                        <p class="text-white">Cliente: {{customer.name}}</p>
+                    {% endif %}
+                {% endfor %}
+
+                {%  for pet in pets %}
+                    {% if pet.id == appointment.pet_id_id %}
+                        <p class="text-white">Pet: {{pet.name}}</p>
+                    {% endif %}
+                {% endfor %}
+
+                {%  for package in packages %}
+                    {% if package.id == appointment.package_id_id %}
+                        <p class="text-white">Pacote: {{package.name}}</p>
+                    {% endif %}
+                {% endfor %}
+
+                {%  for user in users %}
+                    {% if user.id == appointment.user_id_id %}
+                        <p class="text-white">Usuário: {{user.name}}</p>
+                    {% endif %}
+                {% endfor %}
+
+                <p class="text-white">Agendado em: {{appointment.scheduled_at}}</p>
+                
+                {% if appointment.status == "in_progress" %}
+                    <p class="text-white">Status: <span class="bg-warning rounded p-1">Em andamento</span></p>
+                {% elif appointment.status == "canceled" %}
+                    <p class="text-white">Status: <span class="bg-danger rounded p-1">Cancelado</span></p>
+                {% elif appointment.status == "completed" %}
+                    <p class="text-white">Status: <span class="bg-primary rounded p-1">Completo</span></p>
+                {% elif appointment.status == "scheduled" %}
+                    <p class="text-white">Status: <span class="bg-info rounded p-1">Agendado</span></p>
+                {% elif appointment.status == "finished" %}
+                    <p class="text-white">Status: <span class="bg-success rounded p-1">Finalizado</span></p>
+                {% elif appointment.status == "payment" %}
+                    <p class="text-white">Status: <span class="bg-light rounded p-1 text-dark">Aguardando Pagamento</span></p>
+                {% endif %}
+
+                <p class="text-white"> Preço Final: R${{ appointment.final_price }}</p>
+                
+                <p class="text-white">Observações: {{appointment.notes}}</p>
+
+            </div>
+        </a>
+    {% endif %}
+{% endfor %}

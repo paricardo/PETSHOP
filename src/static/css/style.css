@@ -1,0 +1,52 @@
+.nav-tabs .nav-link.active {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
+
+.nav-tabs .nav-link {
+    color: rgb(0, 0, 227);
+}
+
+
+@media (max-width: 767px) {
+    body {
+        overflow-x: hidden !important;
+    }
+
+    .form-mobile {
+        border: none !important;
+        box-shadow: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .label-mobile {
+        margin-left: -290px !important;
+    }
+
+    .input-mobile {
+        width: 350px !important;
+    }
+
+    .text-tab-mobile {
+        display: none;
+    }
+
+    .btn-tab-mobile {
+        width: 18px !important;
+        height: auto !important;
+    }
+
+    .btn-icons-info-appointment {
+        width: 20px !important; 
+        height: 15px !important;
+    }
+
+    .icons-info-appointment {
+        width: 30px !important;
+        height: auto !important;
+    }
+}

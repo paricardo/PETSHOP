@@ -82,11 +82,17 @@
                     <p class="text-white">Agendado em: {{appointment.scheduled_at}}</p>
 
                     {% if appointment.status == "in_progress" %}
-                        <p class="text-white">Status: <span class="bg-warning p-1 rounded">Em andamento</span></p>
+                        <p class="text-white">Status: <span class="bg-warning rounded p-1">Em andamento</span></p>
                     {% elif appointment.status == "canceled" %}
-                        <p class="text-white">Status: <span class="bg-danger p-1 rounded">Cancelado</span></p>
-                    {% else %}
-                        <p class="text-white">Status: <span class="bg-success p-1 rounded">Completo</span></p>
+                        <p class="text-white">Status: <span class="bg-danger rounded p-1">Cancelado</span></p>
+                    {% elif appointment.status == "completed" %}
+                        <p class="text-white">Status: <span class="bg-primary rounded p-1">Completo</span></p>
+                    {% elif appointment.status == "scheduled" %}
+                        <p class="text-white">Status: <span class="bg-info rounded p-1">Agendado</span></p>
+                    {% elif appointment.status == "finished" %}
+                        <p class="text-white">Status: <span class="bg-success rounded p-1">Finalizado</span></p>
+                    {% elif appointment.status == "payment" %}
+                        <p class="text-white">Status: <span class="bg-light rounded p-1">Aguardando Pagamento</span></p>
                     {% endif %}
 
                     <p class="text-white"> Preço Final: R${{ appointment.final_price }}</p>
